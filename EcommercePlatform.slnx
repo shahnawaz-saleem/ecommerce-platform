@@ -1,5 +1,9 @@
 <Solution>
+  <Folder Name="/building-blocks/" />
+  <Folder Name="/docs/" />
+  <Folder Name="/modules/" />
   <Folder Name="/src/">
     <Project Path="src/Ecommerce.API/Ecommerce.API.csproj" />
   </Folder>
+  <Folder Name="/tests/" />
 </Solution>
