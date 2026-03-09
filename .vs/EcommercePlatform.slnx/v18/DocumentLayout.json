@@ -3,6 +3,10 @@
   "WorkspaceRootPath": "E:\\Shah InterViewProj Setup\\ecommerce-platform\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{F3606858-6E83-6E41-72A8-03FEB43CEED8}|src\\Ecommerce.API\\Ecommerce.API.csproj|e:\\shah interviewproj setup\\ecommerce-platform\\src\\ecommerce.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F3606858-6E83-6E41-72A8-03FEB43CEED8}|src\\Ecommerce.API\\Ecommerce.API.csproj|solutionrelative:src\\ecommerce.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{7BDDC32E-75D2-1E7B-4D57-CFEFA1B49E17}|src\\Ecommerce.Application\\Ecommerce.Application.csproj|e:\\shah interviewproj setup\\ecommerce-platform\\src\\ecommerce.application\\ecommerce.application.csproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|",
       "RelativeMoniker": "D:0:0:{7BDDC32E-75D2-1E7B-4D57-CFEFA1B49E17}|src\\Ecommerce.Application\\Ecommerce.Application.csproj|solutionrelative:src\\ecommerce.application\\ecommerce.application.csproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
     },
@@ -13,10 +17,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{F3606858-6E83-6E41-72A8-03FEB43CEED8}|src\\Ecommerce.API\\Ecommerce.API.csproj|e:\\shah interviewproj setup\\ecommerce-platform\\src\\ecommerce.api\\controller\\valuescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{F3606858-6E83-6E41-72A8-03FEB43CEED8}|src\\Ecommerce.API\\Ecommerce.API.csproj|solutionrelative:src\\ecommerce.api\\controller\\valuescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F3606858-6E83-6E41-72A8-03FEB43CEED8}|src\\Ecommerce.API\\Ecommerce.API.csproj|e:\\shah interviewproj setup\\ecommerce-platform\\src\\ecommerce.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F3606858-6E83-6E41-72A8-03FEB43CEED8}|src\\Ecommerce.API\\Ecommerce.API.csproj|solutionrelative:src\\ecommerce.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{F3606858-6E83-6E41-72A8-03FEB43CEED8}|src\\Ecommerce.API\\Ecommerce.API.csproj|e:\\shah interviewproj setup\\ecommerce-platform\\src\\ecommerce.api\\ecommerce.api.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
@@ -30,7 +30,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 6,
           "Children": [
             {
               "$type": "Bookmark",
@@ -42,7 +42,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "Ecommerce.Application",
               "DocumentMoniker": "E:\\Shah InterViewProj Setup\\ecommerce-platform\\src\\Ecommerce.Application\\Ecommerce.Application.csproj",
               "RelativeDocumentMoniker": "src\\Ecommerce.Application\\Ecommerce.Application.csproj",
@@ -54,7 +54,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "Ecommerce.API",
               "DocumentMoniker": "E:\\Shah InterViewProj Setup\\ecommerce-platform\\src\\Ecommerce.API\\Ecommerce.API.csproj",
               "RelativeDocumentMoniker": "src\\Ecommerce.API\\Ecommerce.API.csproj",
@@ -65,7 +65,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "ValuesController.cs",
               "DocumentMoniker": "E:\\Shah InterViewProj Setup\\ecommerce-platform\\src\\Ecommerce.API\\Controller\\ValuesController.cs",
               "RelativeDocumentMoniker": "src\\Ecommerce.API\\Controller\\ValuesController.cs",
@@ -89,15 +89,16 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 0,
               "Title": "Program.cs",
               "DocumentMoniker": "E:\\Shah InterViewProj Setup\\ecommerce-platform\\src\\Ecommerce.API\\Program.cs",
               "RelativeDocumentMoniker": "src\\Ecommerce.API\\Program.cs",
               "ToolTip": "E:\\Shah InterViewProj Setup\\ecommerce-platform\\src\\Ecommerce.API\\Program.cs",
               "RelativeToolTip": "src\\Ecommerce.API\\Program.cs",
-              "ViewState": "AgIAAAEAAACgmZmZmRkmwAwAAAAVAAAAAAAAAA==",
+              "ViewState": "AgIAAAcAAACAmZmZmRkmwBAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-09T02:16:47.602Z"
+              "WhenOpened": "2026-03-09T02:16:47.602Z",
+              "EditorCaption": ""
             }
           ]
         }

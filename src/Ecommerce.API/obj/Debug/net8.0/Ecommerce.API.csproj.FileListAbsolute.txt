@@ -39,3 +39,4 @@ E:\Shah InterViewProj Setup\ecommerce-platform\src\Ecommerce.API\bin\Debug\net8.
 E:\Shah InterViewProj Setup\ecommerce-platform\src\Ecommerce.API\bin\Debug\net8.0\Ecommerce.Domain.dll
 E:\Shah InterViewProj Setup\ecommerce-platform\src\Ecommerce.API\bin\Debug\net8.0\Ecommerce.Application.pdb
 E:\Shah InterViewProj Setup\ecommerce-platform\src\Ecommerce.API\bin\Debug\net8.0\Ecommerce.Domain.pdb
+E:\Shah InterViewProj Setup\ecommerce-platform\src\Ecommerce.API\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
