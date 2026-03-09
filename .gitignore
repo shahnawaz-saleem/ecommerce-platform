@@ -1,0 +1,25 @@
+# Build folders
+bin
+obj
+
+# Visual Studio
+.vs
+.user
+.suo
+
+# VS Code
+.vscode
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+.log
+
+# Build output
+.dll
+.exe
+.pdb
+.cache
+.tmp
