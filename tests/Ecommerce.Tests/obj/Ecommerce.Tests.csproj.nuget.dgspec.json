@@ -168,6 +168,9 @@
             "projectReferences": {
               "E:\\Shah InterViewProj Setup\\ecommerce-platform\\src\\Ecommerce.Application\\Ecommerce.Application.csproj": {
                 "projectPath": "E:\\Shah InterViewProj Setup\\ecommerce-platform\\src\\Ecommerce.Application\\Ecommerce.Application.csproj"
+              },
+              "E:\\Shah InterViewProj Setup\\ecommerce-platform\\src\\Ecommerce.Domain\\Ecommerce.Domain.csproj": {
+                "projectPath": "E:\\Shah InterViewProj Setup\\ecommerce-platform\\src\\Ecommerce.Domain\\Ecommerce.Domain.csproj"
               }
             }
           }

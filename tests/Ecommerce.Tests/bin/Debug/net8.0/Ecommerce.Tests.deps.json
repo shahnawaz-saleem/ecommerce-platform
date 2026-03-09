@@ -9,6 +9,7 @@
       "Ecommerce.Tests/1.0.0": {
         "dependencies": {
           "Ecommerce.Application": "1.0.0",
+          "Ecommerce.Domain": "1.0.0",
           "Microsoft.NET.Test.Sdk": "17.8.0",
           "xunit": "2.5.3"
         },

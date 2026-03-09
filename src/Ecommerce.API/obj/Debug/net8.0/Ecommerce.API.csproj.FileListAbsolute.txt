@@ -29,10 +29,13 @@ E:\Shah InterViewProj Setup\ecommerce-platform\src\Ecommerce.API\obj\Debug\net8.
 E:\Shah InterViewProj Setup\ecommerce-platform\src\Ecommerce.API\obj\Debug\net8.0\staticwebassets.development.json
 E:\Shah InterViewProj Setup\ecommerce-platform\src\Ecommerce.API\obj\Debug\net8.0\staticwebassets.build.endpoints.json
 E:\Shah InterViewProj Setup\ecommerce-platform\src\Ecommerce.API\obj\Debug\net8.0\swae.build.ex.cache
-E:\Shah InterViewProj Setup\ecommerce-platform\src\Ecommerce.API\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
 E:\Shah InterViewProj Setup\ecommerce-platform\src\Ecommerce.API\obj\Debug\net8.0\Ecommerc.301F8E8C.Up2Date
 E:\Shah InterViewProj Setup\ecommerce-platform\src\Ecommerce.API\obj\Debug\net8.0\Ecommerce.API.dll
 E:\Shah InterViewProj Setup\ecommerce-platform\src\Ecommerce.API\obj\Debug\net8.0\refint\Ecommerce.API.dll
 E:\Shah InterViewProj Setup\ecommerce-platform\src\Ecommerce.API\obj\Debug\net8.0\Ecommerce.API.pdb
 E:\Shah InterViewProj Setup\ecommerce-platform\src\Ecommerce.API\obj\Debug\net8.0\Ecommerce.API.genruntimeconfig.cache
 E:\Shah InterViewProj Setup\ecommerce-platform\src\Ecommerce.API\obj\Debug\net8.0\ref\Ecommerce.API.dll
+E:\Shah InterViewProj Setup\ecommerce-platform\src\Ecommerce.API\bin\Debug\net8.0\Ecommerce.Application.dll
+E:\Shah InterViewProj Setup\ecommerce-platform\src\Ecommerce.API\bin\Debug\net8.0\Ecommerce.Domain.dll
+E:\Shah InterViewProj Setup\ecommerce-platform\src\Ecommerce.API\bin\Debug\net8.0\Ecommerce.Application.pdb
+E:\Shah InterViewProj Setup\ecommerce-platform\src\Ecommerce.API\bin\Debug\net8.0\Ecommerce.Domain.pdb
