@@ -1,0 +1,40 @@
+<Solution>
+  <Folder Name="/src/" />
+  <Folder Name="/src/API/">
+    <Project Path="src/API/Ecommerce.API/Ecommerce.API.csproj" />
+  </Folder>
+  <Folder Name="/src/BuildingBlocks/">
+    <Project Path="src/BuildingBlocks/Exceptions/Exceptions.csproj" />
+    <Project Path="src/BuildingBlocks/Logging/Logging.csproj" />
+    <Project Path="src/BuildingBlocks/Messaging/Messaging.csproj" />
+    <Project Path="src/BuildingBlocks/Validation/Validation.csproj" />
+  </Folder>
+  <Folder Name="/src/Modules/" />
+  <Folder Name="/src/Modules/Basket/">
+    <Project Path="src/Modules/Basket/Basket.API/Basket.API.csproj" />
+    <Project Path="src/Modules/Basket/Basket.Application/Basket.Application.csproj" />
+    <Project Path="src/Modules/Basket/Basket.Domain/Basket.Domain.csproj" />
+    <Project Path="src/Modules/Basket/Basket.Infrastructure/Basket.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/src/Modules/Catalog/">
+    <Project Path="src/Modules/Catalog/Catalog.API/Catalog.API.csproj" />
+    <Project Path="src/Modules/Catalog/Catalog.Application/Catalog.Application.csproj" />
+    <Project Path="src/Modules/Catalog/Catalog.Domain/Catalog.Domain.csproj" />
+    <Project Path="src/Modules/Catalog/Catalog.Infrastructure/Catalog.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/src/Modules/Orders/">
+    <Project Path="src/Modules/Orders/Orders.API/Orders.API.csproj" />
+    <Project Path="src/Modules/Orders/Orders.Application/Orders.Application.csproj" />
+    <Project Path="src/Modules/Orders/Orders.Domain/Orders.Domain.csproj" />
+    <Project Path="src/Modules/Orders/Orders.Infrastructure/Orders.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/src/Modules/Payments/">
+    <Project Path="src/Modules/Payments/Payments.API/Payments.API.csproj" />
+    <Project Path="src/Modules/Payments/Payments.Application/Payments.Application.csproj" />
+    <Project Path="src/Modules/Payments/Payments.Domain/Payments.Domain.csproj" />
+    <Project Path="src/Modules/Payments/Payments.Infrastructure/Payments.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Ecommerce.Tests/Ecommerce.Tests.csproj" />
+  </Folder>
+</Solution>
