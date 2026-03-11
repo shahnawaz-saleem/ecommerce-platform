@@ -1,0 +1,121 @@
+# =========================
+# CREATE SOLUTION
+# =========================
+dotnet new sln -n ecommerce-platform
+
+
+# =========================
+# CREATE BASE FOLDERS
+# =========================
+mkdir src
+mkdir src/API
+mkdir src/Modules
+mkdir src/Modules/Catalog
+
+
+# =========================
+# CREATE HOST API
+# =========================
+dotnet new webapi -n Ecommerce.API -f net8.0 -o src/API/Ecommerce.API
+dotnet sln add src/API/Ecommerce.API/Ecommerce.API.csproj
+
+
+# =========================
+# CREATE CATALOG MODULE PROJECTS
+# =========================
+dotnet new classlib -n Catalog.Domain -f net8.0 -o src/Modules/Catalog/Catalog.Domain
+dotnet new classlib -n Catalog.Application -f net8.0 -o src/Modules/Catalog/Catalog.Application
+dotnet new classlib -n Catalog.Infrastructure -f net8.0 -o src/Modules/Catalog/Catalog.Infrastructure
+dotnet new webapi -n Catalog.API -f net8.0 -o src/Modules/Catalog/Catalog.API
+
+
+# =========================
+# ADD PROJECTS TO SOLUTION
+# =========================
+dotnet sln add src/Modules/Catalog/Catalog.Domain/Catalog.Domain.csproj
+dotnet sln add src/Modules/Catalog/Catalog.Application/Catalog.Application.csproj
+dotnet sln add src/Modules/Catalog/Catalog.Infrastructure/Catalog.Infrastructure.csproj
+dotnet sln add src/Modules/Catalog/Catalog.API/Catalog.API.csproj
+
+
+# =========================
+# ADD PROJECT REFERENCES
+# =========================
+
+# Application -> Domain
+dotnet add src/Modules/Catalog/Catalog.Application reference src/Modules/Catalog/Catalog.Domain
+
+# Infrastructure -> Application + Domain
+dotnet add src/Modules/Catalog/Catalog.Infrastructure reference src/Modules/Catalog/Catalog.Application
+dotnet add src/Modules/Catalog/Catalog.Infrastructure reference src/Modules/Catalog/Catalog.Domain
+
+# Catalog.API -> Application + Infrastructure
+dotnet add src/Modules/Catalog/Catalog.API reference src/Modules/Catalog/Catalog.Application
+dotnet add src/Modules/Catalog/Catalog.API reference src/Modules/Catalog/Catalog.Infrastructure
+
+# Host API -> Catalog.API
+dotnet add src/API/Ecommerce.API reference src/Modules/Catalog/Catalog.API
+
+
+# =========================
+# INSTALL MEDIATR
+# =========================
+dotnet add src/Modules/Catalog/Catalog.Application package MediatR --version 14.1.0
+
+
+# =========================
+# MEDIATR DEPENDENCY INJECTION
+# =========================
+dotnet add src/Modules/Catalog/Catalog.API package MediatR.Extensions.Microsoft.DependencyInjection --version 11.1.0
+
+
+# =========================
+# INSTALL ENTITY FRAMEWORK CORE
+# =========================
+dotnet add src/Modules/Catalog/Catalog.Infrastructure package Microsoft.EntityFrameworkCore --version 8.0.0
+
+
+# =========================
+# INSTALL POSTGRESQL PROVIDER
+# =========================
+dotnet add src/Modules/Catalog/Catalog.Infrastructure package Npgsql.EntityFrameworkCore.PostgreSQL --version 8.0.0
+
+
+# =========================
+# INSTALL EF DESIGN PACKAGE (REQUIRED FOR MIGRATIONS)
+# =========================
+dotnet add src/API/Ecommerce.API package Microsoft.EntityFrameworkCore.Design --version 8.0.0
+
+
+# =========================
+# INSTALL EF CLI TOOL
+# =========================
+dotnet tool install --global dotnet-ef
+
+
+# =========================
+# RESTORE PACKAGES
+# =========================
+dotnet restore
+
+
+# =========================
+# CREATE MIGRATION
+# =========================
+dotnet ef migrations add InitialCatalog \
+--project src/Modules/Catalog/Catalog.Infrastructure \
+--startup-project src/API/Ecommerce.API
+
+
+# =========================
+# CREATE DATABASE
+# =========================
+dotnet ef database update \
+--project src/Modules/Catalog/Catalog.Infrastructure \
+--startup-project src/API/Ecommerce.API
+
+
+# =========================
+# RUN APPLICATION
+# =========================
+dotnet run --project src/API/Ecommerce.API
