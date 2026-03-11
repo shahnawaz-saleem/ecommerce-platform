@@ -14,7 +14,7 @@ public static class DependencyInjection
         IConfiguration configuration)
     {
         services.AddDbContext<CatalogDbContext>(options =>
-            options.UseSqlServer(
+            options.UseNpgsql(
                 configuration.GetConnectionString("CatalogDb")));
 
         services.AddScoped<IProductRepository, ProductRepository>();
