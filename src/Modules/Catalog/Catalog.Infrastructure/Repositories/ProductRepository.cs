@@ -1,0 +1,32 @@
+﻿using Catalog.Application.Interfaces;
+using Catalog.Domain.Entities;
+using Catalog.Infrastructure.Persistence;
+using Microsoft.EntityFrameworkCore;
+
+namespace Catalog.Infrastructure.Repositories;
+
+public class ProductRepository : IProductRepository
+{
+    private readonly CatalogDbContext _context;
+
+    public ProductRepository(CatalogDbContext context)
+    {
+        _context = context;
+    }
+
+    public async Task AddAsync(Product product)
+    {
+        await _context.Products.AddAsync(product);
+    }
+
+    public async Task<Product?> GetByIdAsync(Guid id)
+    {
+        return await _context.Products
+            .FirstOrDefaultAsync(p => p.Id == id);
+    }
+
+    public async Task SaveChangesAsync()
+    {
+        await _context.SaveChangesAsync();
+    }
+}
