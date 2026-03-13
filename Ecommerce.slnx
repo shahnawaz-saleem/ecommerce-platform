@@ -4,6 +4,7 @@
     <Project Path="src/API/Ecommerce.API/Ecommerce.API.csproj" />
   </Folder>
   <Folder Name="/src/BuildingBlocks/">
+    <Project Path="Caching/Caching.csproj" Id="4632c160-d384-42af-a7ae-9a2209ecdc1e" />
     <Project Path="src/BuildingBlocks/Exceptions/Exceptions.csproj" />
     <Project Path="src/BuildingBlocks/Logging/Logging.csproj" />
     <Project Path="src/BuildingBlocks/Messaging/Messaging.csproj" />
