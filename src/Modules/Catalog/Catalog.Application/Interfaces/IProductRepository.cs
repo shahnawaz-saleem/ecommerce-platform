@@ -9,4 +9,5 @@ public interface IProductRepository
     Task<Product?> GetByIdAsync(Guid id);
 
     Task SaveChangesAsync();
+    Task<List<Product>> GetAllAsync();
 }

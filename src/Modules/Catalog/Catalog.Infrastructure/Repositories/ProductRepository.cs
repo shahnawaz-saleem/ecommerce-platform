@@ -19,6 +19,11 @@ public class ProductRepository : IProductRepository
         await _context.Products.AddAsync(product);
     }
 
+    public async Task<List<Product>> GetAllAsync()
+    {
+        return await _context.Products.AsNoTracking().ToListAsync(); ;
+    }
+
     public async Task<Product?> GetByIdAsync(Guid id)
     {
         return await _context.Products
