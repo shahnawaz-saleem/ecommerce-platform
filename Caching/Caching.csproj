@@ -8,7 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="Caching.StackExchangeRedis" Version="1.0.0" />
-    <PackageReference Include="StackExchange.Redis" Version="2.11.8" />
+    <PackageReference Include="StackExchange.Redis" Version="2.12.1" />
   </ItemGroup>
 
 </Project>
