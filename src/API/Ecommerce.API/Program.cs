@@ -1,5 +1,8 @@
 using Catalog.API;
+using Catalog.Application.Products.Commands.CreateProduct;
 using Ecommerce.API.Caching;
+using FluentValidation;
+using MediatR;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,6 +16,10 @@ builder.Services.AddCatalogModule(builder.Configuration);
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 builder.Services.AddProblemDetails();
 builder.Services.AddScoped<ICacheService, RedisCacheService>();
+builder.Services.AddValidatorsFromAssemblyContaining<CreateProductCommandValidator>();
+builder.Services.AddTransient(
+    typeof(IPipelineBehavior<,>),
+    typeof(ValidationBehavior<,>));
 Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()
     .WriteTo.File(
