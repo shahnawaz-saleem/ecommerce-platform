@@ -45,4 +45,10 @@ public class ProductRepository : IProductRepository
     {
         return await _context.Products.CountAsync();
     }
+    public async Task UpdateAsync(Product product)
+    {
+        _context.Products.Update(product);
+        await Task.CompletedTask;
+    }
+
 }

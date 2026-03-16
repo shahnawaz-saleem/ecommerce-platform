@@ -12,5 +12,5 @@ public interface IProductRepository
     Task<List<Product>> GetAllAsync();
     public  Task<List<Product>> GetPagedAsync(int page, int pageSize);
     public Task<int> CountAsync();
-    
-    }
+    Task UpdateAsync(Product product);
+}

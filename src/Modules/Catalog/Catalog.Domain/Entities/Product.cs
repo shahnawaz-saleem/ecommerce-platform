@@ -69,5 +69,13 @@ namespace Catalog.Domain.Entities
 
             StockQuantity -= quantity;
         }
+        public void Update(string name,string description,decimal price,Guid categoryId,int stockQuantity)
+        {
+            Name = name;
+            Description = description;
+            Price = price;
+            CategoryId = categoryId;
+            StockQuantity = stockQuantity;
+        }
     }
 }

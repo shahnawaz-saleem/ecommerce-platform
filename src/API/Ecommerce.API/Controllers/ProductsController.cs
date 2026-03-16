@@ -1,4 +1,5 @@
 ﻿using Catalog.Application.Commands;
+using Catalog.Application.Commands.UpdateProduct;
 using Catalog.Application.Queries.GetProductById;
 using Catalog.Application.Queries.GetProducts;
 using MediatR;
@@ -41,5 +42,17 @@ public class ProductsController : ControllerBase
             new GetProductByIdQuery(id));
 
         return Ok(product);
+    }
+    [HttpPut("{id}")]
+    public async Task<IActionResult> UpdateProduct(
+    Guid id,
+    UpdateProductCommand command)
+    {
+        if (id != command.Id)
+            return BadRequest();
+
+        var result = await _mediator.Send(command);
+
+        return Ok(result);
     }
 }
