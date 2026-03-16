@@ -10,4 +10,7 @@ public interface IProductRepository
 
     Task SaveChangesAsync();
     Task<List<Product>> GetAllAsync();
-}
+    public  Task<List<Product>> GetPagedAsync(int page, int pageSize);
+    public Task<int> CountAsync();
+    
+    }

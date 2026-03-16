@@ -1,12 +1,13 @@
-﻿using MediatR;
+﻿using Catalog.Application.Common;
 using Catalog.Application.Interfaces;
 using Catalog.Domain.Entities;
 using Ecommerce.API.Caching;
+using MediatR;
 
 namespace Catalog.Application.Queries.GetProducts;
 
 public class GetProductsQueryHandler
-    : IRequestHandler<GetProductsQuery, List<Product>>
+    : IRequestHandler<GetProductsQuery, PagedResult<Product>>
 {
     private readonly IProductRepository _repository;
     private readonly ICacheService _cache;
@@ -16,24 +17,30 @@ public class GetProductsQueryHandler
         _cache = cache;
     }
 
-    public async Task<List<Product>> Handle(
+    public async Task<PagedResult<Product>> Handle(
         GetProductsQuery request,
         CancellationToken cancellationToken)
     {
-        const string cacheKey = "products";
+        var cacheKey = $"products_page_{request.Page}_{request.PageSize}";
 
-        var cached = await _cache.GetAsync<List<Product>>(cacheKey);
+        var cached = await _cache.GetAsync<PagedResult<Product>>(cacheKey);
 
         if (cached != null)
             return cached;
 
-        var products = await _repository.GetAllAsync();
+        var totalCount = await _repository.CountAsync();
 
-        await _cache.SetAsync(
-            cacheKey,
-            products,
-            TimeSpan.FromMinutes(5));
+        var products = await _repository.GetPagedAsync(
+            request.Page,
+            request.PageSize);
 
-        return products;
+        var result = new PagedResult<Product>
+        {
+            Items = products,
+            Page = request.Page,
+            PageSize = request.PageSize,
+            TotalCount = totalCount
+        };
+        return result;
     }
 }

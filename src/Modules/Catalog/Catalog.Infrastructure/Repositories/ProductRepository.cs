@@ -34,4 +34,15 @@ public class ProductRepository : IProductRepository
     {
         await _context.SaveChangesAsync();
     }
+    public async Task<List<Product>> GetPagedAsync(int page, int pageSize)
+    {
+        return await _context.Products
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
+    }
+    public async Task<int> CountAsync()
+    {
+        return await _context.Products.CountAsync();
+    }
 }

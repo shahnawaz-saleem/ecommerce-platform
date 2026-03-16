@@ -24,9 +24,12 @@ public class ProductsController : ControllerBase
         return Ok(productId);
     }
     [HttpGet]
-    public async Task<IActionResult> GetProducts()
+    public async Task<IActionResult> GetProducts(
+    int page = 1,
+    int pageSize = 10)
     {
-        var result = await _mediator.Send(new GetProductsQuery());
+        var result = await _mediator.Send(
+            new GetProductsQuery(page, pageSize));
 
         return Ok(result);
     }
