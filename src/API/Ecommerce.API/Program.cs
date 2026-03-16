@@ -17,6 +17,8 @@ builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 builder.Services.AddProblemDetails();
 builder.Services.AddScoped<ICacheService, RedisCacheService>();
 builder.Services.AddValidatorsFromAssemblyContaining<CreateProductCommandValidator>();
+builder.Services.AddValidatorsFromAssemblyContaining<UpdateProductCommandValidator>();
+
 builder.Services.AddTransient(
     typeof(IPipelineBehavior<,>),
     typeof(ValidationBehavior<,>));

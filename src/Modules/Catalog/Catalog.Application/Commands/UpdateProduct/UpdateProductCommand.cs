@@ -10,7 +10,7 @@ namespace Catalog.Application.Commands.UpdateProduct
         decimal Price,
         int StockQuantity,
         Guid CategoryId,
-        Guid vendorID
+        Guid VendorId
         ) : IRequest<bool>
     {
     }
