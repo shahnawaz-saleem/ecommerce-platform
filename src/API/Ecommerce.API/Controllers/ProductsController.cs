@@ -1,4 +1,5 @@
 ﻿using Catalog.Application.Commands;
+using Catalog.Application.Queries.GetProductById;
 using Catalog.Application.Queries.GetProducts;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -32,5 +33,13 @@ public class ProductsController : ControllerBase
             new GetProductsQuery(page, pageSize));
 
         return Ok(result);
+    }
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetProduct(Guid id)
+    {
+        var product = await _mediator.Send(
+            new GetProductByIdQuery(id));
+
+        return Ok(product);
     }
 }
