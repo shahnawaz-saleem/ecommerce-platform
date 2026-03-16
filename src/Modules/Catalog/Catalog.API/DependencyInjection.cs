@@ -1,4 +1,5 @@
 ﻿using Catalog.Application.Commands;
+using Catalog.Application;
 using Catalog.Infrastructure;
 using MediatR;
 using Microsoft.Extensions.Configuration;

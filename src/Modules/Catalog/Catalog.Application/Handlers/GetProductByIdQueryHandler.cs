@@ -9,7 +9,7 @@ namespace Catalog.Application.Handlers
 {
    
     public class GetProductByIdQueryHandler
-        : IRequestHandler<GetProductByIdQuery, Product>
+        : IRequestHandler<GetProductByIdQuery, Product?>
     {
         private readonly IProductRepository _repository;
         private readonly ICacheService _cache;
@@ -33,10 +33,10 @@ namespace Catalog.Application.Handlers
             if (cachedProduct != null)
                 return cachedProduct;
 
-            var product = await _repository.GetByIdAsync(request.Id);
+            var product = await _repository.GetByIdAsync(request.Id, cancellationToken);
 
             if (product == null)
-                throw new Exception("Product not found");
+                return null;
 
             await _cache.SetAsync(cacheKey, product, TimeSpan.FromMinutes(10));
 

@@ -19,40 +19,48 @@ public class ProductsController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create(CreateProductCommand command)
+    public async Task<IActionResult> Create(CreateProductCommand command, CancellationToken cancellationToken)
     {
-        var productId = await _mediator.Send(command);
+        var productId = await _mediator.Send(command, cancellationToken);
 
-        return Ok(productId);
+        return CreatedAtAction(nameof(GetProduct), new { id = productId }, productId);
     }
     [HttpGet]
     public async Task<IActionResult> GetProducts(
     int page = 1,
-    int pageSize = 10)
+    int pageSize = 10,
+    CancellationToken cancellationToken = default)
     {
         var result = await _mediator.Send(
-            new GetProductsQuery(page, pageSize));
+            new GetProductsQuery(page, pageSize), cancellationToken);
 
         return Ok(result);
     }
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetProduct(Guid id)
+    public async Task<IActionResult> GetProduct(Guid id, CancellationToken cancellationToken = default)
     {
         var product = await _mediator.Send(
-            new GetProductByIdQuery(id));
+            new GetProductByIdQuery(id), cancellationToken);
+
+        if (product == null)
+            return NotFound();
 
         return Ok(product);
     }
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateProduct(
     Guid id,
-    UpdateProductCommand command)
+    UpdateProductCommand command,
+    CancellationToken cancellationToken = default)
     {
         if (id != command.Id)
             return BadRequest();
 
-        var result = await _mediator.Send(command);
+        var result = await _mediator.Send(command, cancellationToken);
 
-        return Ok(result);
+        if (!result)
+            return NotFound();
+
+        return NoContent();
     }
 }

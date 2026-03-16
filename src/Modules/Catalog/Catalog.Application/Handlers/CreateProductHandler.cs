@@ -25,9 +25,9 @@ public class CreateProductHandler : IRequestHandler<CreateProductCommand, Guid>
             request.StockQuantity
         );
 
-        await _productRepository.AddAsync(product);
+        await _productRepository.AddAsync(product, cancellationToken);
 
-        await _productRepository.SaveChangesAsync();
+        await _productRepository.SaveChangesAsync(cancellationToken);
 
         return product.Id;
     }

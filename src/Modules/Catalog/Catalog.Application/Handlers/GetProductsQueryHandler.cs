@@ -28,11 +28,12 @@ public class GetProductsQueryHandler
         if (cached != null)
             return cached;
 
-        var totalCount = await _repository.CountAsync();
+        var totalCount = await _repository.CountAsync(cancellationToken);
 
         var products = await _repository.GetPagedAsync(
             request.Page,
-            request.PageSize);
+            request.PageSize,
+            cancellationToken);
 
         var result = new PagedResult<Product>
         {
