@@ -3,6 +3,7 @@ using Catalog.Application.Products.Commands.DeleteProduct;
 using Catalog.Application.Products.Commands.UpdateProduct;
 using Catalog.Application.Queries.GetProductById;
 using Catalog.Application.Queries.GetProducts;
+using Catalog.Application.Queries.SearchProducts;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -65,11 +66,37 @@ public class ProductsController : ControllerBase
         return NoContent();
     }
     [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteProduct(Guid id)
+    public async Task<IActionResult> DeleteProduct(Guid id, CancellationToken cancellationToken = default)
     {
         var command = new DeleteProductCommand(id);
 
-        var result = await _mediator.Send(command);
+        var result = await _mediator.Send(command, cancellationToken);
+
+        if (!result)
+            return NotFound();
+
+        return NoContent();
+    }
+
+    [HttpGet("search")]
+    public async Task<IActionResult> SearchProducts(
+        [FromQuery] string? term,
+        [FromQuery] Guid? categoryId,
+        [FromQuery] decimal? priceMin,
+        [FromQuery] decimal? priceMax,
+        [FromQuery] int page = 1,
+        [FromQuery] int pageSize = 10,
+        CancellationToken cancellationToken = default)
+    {
+        if (page < 1)
+            return BadRequest("Page must be >= 1");
+
+        const int maxPageSize = 100;
+        pageSize = Math.Clamp(pageSize, 1, maxPageSize);
+
+        var query = new SearchProductsQuery(term, categoryId, priceMin, priceMax, page, pageSize);
+
+        var result = await _mediator.Send(query, cancellationToken);
 
         return Ok(result);
     }

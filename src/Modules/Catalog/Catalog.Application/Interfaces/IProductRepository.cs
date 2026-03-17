@@ -13,4 +13,8 @@ public interface IProductRepository
     Task<List<Product>> GetPagedAsync(int page, int pageSize, CancellationToken cancellationToken = default);
     Task<int> CountAsync(CancellationToken cancellationToken = default);
     Task UpdateAsync(Product product, CancellationToken cancellationToken = default);
+    
+    // Search with optional filters
+    Task<List<Product>> SearchAsync(string? term, Guid? categoryId, decimal? priceMin, decimal? priceMax, int page, int pageSize, CancellationToken cancellationToken = default);
+    Task<int> CountSearchAsync(string? term, Guid? categoryId, decimal? priceMin, decimal? priceMax, CancellationToken cancellationToken = default);
 }
