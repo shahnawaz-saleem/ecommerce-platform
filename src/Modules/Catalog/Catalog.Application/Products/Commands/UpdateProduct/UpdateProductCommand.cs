@@ -1,7 +1,7 @@
 ﻿using System;
 using MediatR;
 
-namespace Catalog.Application.Commands.UpdateProduct
+namespace Catalog.Application.Products.Commands.UpdateProduct
 {
     public record UpdateProductCommand(
         Guid Id,

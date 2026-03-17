@@ -1,5 +1,5 @@
-﻿using Catalog.Application.Commands;
-using Catalog.Application.Commands.UpdateProduct;
+﻿using Catalog.Application.Products.Commands.CreateProduct;
+using Catalog.Application.Products.Commands.UpdateProduct;
 using Catalog.Application.Queries.GetProductById;
 using Catalog.Application.Queries.GetProducts;
 using MediatR;

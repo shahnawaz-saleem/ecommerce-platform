@@ -1,5 +1,5 @@
-﻿using Catalog.Application.Commands.UpdateProduct;
-using Catalog.Application.Interfaces;
+﻿using Catalog.Application.Interfaces;
+using Catalog.Application.Products.Commands.UpdateProduct;
 using Ecommerce.API.Caching;
 using MediatR;
 

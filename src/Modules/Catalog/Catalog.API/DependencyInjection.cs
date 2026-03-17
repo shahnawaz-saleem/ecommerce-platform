@@ -1,9 +1,9 @@
-﻿using Catalog.Application.Commands;
-using Catalog.Application;
+﻿using Catalog.Application;
 using Catalog.Infrastructure;
 using MediatR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Catalog.Application.Products.Commands.CreateProduct;
 
 namespace Catalog.API;
 

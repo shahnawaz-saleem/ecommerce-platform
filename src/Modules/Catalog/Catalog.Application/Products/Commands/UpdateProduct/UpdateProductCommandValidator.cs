@@ -1,4 +1,4 @@
-﻿using Catalog.Application.Commands.UpdateProduct;
+﻿using Catalog.Application.Products.Commands.UpdateProduct;
 using FluentValidation;
 
 public class UpdateProductCommandValidator

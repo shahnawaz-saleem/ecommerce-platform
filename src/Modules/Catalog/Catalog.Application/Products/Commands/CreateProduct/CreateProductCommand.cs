@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace Catalog.Application.Commands;
+namespace Catalog.Application.Products.Commands.CreateProduct;
 
 public class CreateProductCommand : IRequest<Guid>
 {

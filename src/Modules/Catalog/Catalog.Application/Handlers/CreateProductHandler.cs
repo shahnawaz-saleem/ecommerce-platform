@@ -1,5 +1,5 @@
-﻿using Catalog.Application.Commands;
-using Catalog.Application.Interfaces;
+﻿using Catalog.Application.Interfaces;
+using Catalog.Application.Products.Commands.CreateProduct;
 using Catalog.Domain.Entities;
 using MediatR;
 

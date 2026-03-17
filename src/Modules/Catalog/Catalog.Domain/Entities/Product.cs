@@ -23,7 +23,8 @@ namespace Catalog.Domain.Entities
         public int StockQuantity { get; private set; }
 
         public DateTime CreatedAt { get; private set; }
-
+        public bool IsDeleted { get; private set; }
+        public DateTime? DeletedAt { get; private set; }
         private Product() { } // Required by EF Core
 
         public Product(
@@ -76,6 +77,11 @@ namespace Catalog.Domain.Entities
             Price = price;
             CategoryId = categoryId;
             StockQuantity = stockQuantity;
+        }
+        public void Delete()
+        {
+            IsDeleted = true;
+            DeletedAt= DateTime.UtcNow;
         }
     }
 }
