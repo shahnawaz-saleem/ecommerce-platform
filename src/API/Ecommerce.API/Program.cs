@@ -1,5 +1,6 @@
 using Catalog.API;
 using Catalog.Application.Products.Commands.CreateProduct;
+using Catalog.Application.Products.Commands.DeleteProduct;
 using Ecommerce.API.Caching;
 using FluentValidation;
 using MediatR;
@@ -18,6 +19,7 @@ builder.Services.AddProblemDetails();
 builder.Services.AddScoped<ICacheService, RedisCacheService>();
 builder.Services.AddValidatorsFromAssemblyContaining<CreateProductCommandValidator>();
 builder.Services.AddValidatorsFromAssemblyContaining<UpdateProductCommandValidator>();
+builder.Services.AddValidatorsFromAssemblyContaining<DeleteProductCommand>();
 
 builder.Services.AddTransient(
     typeof(IPipelineBehavior<,>),

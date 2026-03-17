@@ -1,4 +1,5 @@
 ﻿using Catalog.Application.Products.Commands.CreateProduct;
+using Catalog.Application.Products.Commands.DeleteProduct;
 using Catalog.Application.Products.Commands.UpdateProduct;
 using Catalog.Application.Queries.GetProductById;
 using Catalog.Application.Queries.GetProducts;
@@ -62,5 +63,14 @@ public class ProductsController : ControllerBase
             return NotFound();
 
         return NoContent();
+    }
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteProduct(Guid id)
+    {
+        var command = new DeleteProductCommand(id);
+
+        var result = await _mediator.Send(command);
+
+        return Ok(result);
     }
 }

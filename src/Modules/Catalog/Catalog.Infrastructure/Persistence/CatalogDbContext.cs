@@ -28,6 +28,8 @@ public class CatalogDbContext : DbContext
 
             entity.Property(p => p.Description)
                   .HasMaxLength(1000);
+            entity.HasQueryFilter(p => !p.IsDeleted);
         });
+        base.OnModelCreating(modelBuilder);
     }
 }
