@@ -16,6 +16,7 @@ public class CatalogDbContext : DbContext
     }
 
     public DbSet<Product> Products { get; set; }
+    public DbSet<OutboxMessage> OutboxMessages { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -32,6 +33,9 @@ public class CatalogDbContext : DbContext
 
             entity.Property(p => p.Description)
                   .HasMaxLength(1000);
+            // Ignore domain events property on the entity to avoid coupling domain to EF Core
+            entity.Ignore(p => p.DomainEvents);
+
             entity.HasQueryFilter(p => !p.IsDeleted);
         });
         base.OnModelCreating(modelBuilder);
@@ -51,10 +55,25 @@ public class CatalogDbContext : DbContext
             .SelectMany(e => e!.DomainEvents)
             .ToList();
 
-        // Save changes first
+        // Create outbox messages for reliable dispatch
+        foreach (var domainEvent in domainEvents)
+        {
+            var outbox = new OutboxMessage
+            {
+                Id = Guid.NewGuid(),
+                OccurredOn = DateTime.UtcNow,
+                Type = domainEvent.GetType().AssemblyQualifiedName ?? domainEvent.GetType().FullName,
+                Content = System.Text.Json.JsonSerializer.Serialize(domainEvent, domainEvent.GetType()),
+                Attempts = 0
+            };
+
+            await OutboxMessages.AddAsync(outbox, cancellationToken);
+        }
+
+        // Save changes (including outbox) within the same transaction
         var result = await base.SaveChangesAsync(cancellationToken);
 
-        // Publish events
+        // Publish events in-process
         foreach (var domainEvent in domainEvents)
         {
             await _mediator.Publish(domainEvent, cancellationToken);

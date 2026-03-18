@@ -7,14 +7,11 @@ public class UpdateProductCommandHandler
     : IRequestHandler<UpdateProductCommand, bool>
 {
     private readonly IProductRepository _repository;
-    private readonly ICacheService _cache;
 
     public UpdateProductCommandHandler(
-        IProductRepository repository,
-        ICacheService cache)
+        IProductRepository repository)
     {
         _repository = repository;
-        _cache = cache;
     }
 
     public async Task<bool> Handle(
@@ -36,9 +33,7 @@ public class UpdateProductCommandHandler
 
         await _repository.SaveChangesAsync(cancellationToken);
 
-        // invalidate cache
-        await _cache.RemoveAsync($"product_{request.Id}");
-        await _cache.RemoveAsync("products");
+        // cache invalidation handled by domain event handlers
 
         return true;
     }

@@ -18,6 +18,8 @@ public static class DependencyInjection
                 configuration.GetConnectionString("CatalogDb")));
 
         services.AddScoped<IProductRepository, ProductRepository>();
+        // Background outbox dispatcher
+        services.AddHostedService<Catalog.Infrastructure.Outbox.OutboxDispatcher>();
 
         return services;
     }

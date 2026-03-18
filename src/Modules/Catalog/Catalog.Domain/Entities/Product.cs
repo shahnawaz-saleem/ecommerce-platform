@@ -30,7 +30,11 @@ namespace Catalog.Domain.Entities
         public DateTime? DeletedAt { get; private set; }
 
         private readonly List<DomainEvent> _domainEvents = new();
-        public IReadOnlyCollection<DomainEvent> DomainEvents => _domainEvents.AsReadOnly();
+        public IReadOnlyCollection<DomainEvent> DomainEvents
+        {
+            get { return _domainEvents.AsReadOnly(); }
+        }
+
         private Product() { } // Required by EF Core
 
         public Product(

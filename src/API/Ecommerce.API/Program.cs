@@ -19,7 +19,6 @@ builder.Services.AddProblemDetails();
 builder.Services.AddScoped<ICacheService, RedisCacheService>();
 builder.Services.AddValidatorsFromAssemblyContaining<CreateProductCommandValidator>();
 builder.Services.AddValidatorsFromAssemblyContaining<UpdateProductCommandValidator>();
-builder.Services.AddValidatorsFromAssemblyContaining<DeleteProductCommand>();
 
 builder.Services.AddTransient(
     typeof(IPipelineBehavior<,>),

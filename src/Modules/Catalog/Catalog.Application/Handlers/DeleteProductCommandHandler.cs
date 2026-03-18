@@ -14,32 +14,27 @@ namespace Catalog.Application.Handlers
      : IRequestHandler<DeleteProductCommand, bool>
     {
         private readonly IProductRepository _repository;
-        private readonly ICacheService _cache;
 
         public DeleteProductCommandHandler(
-            IProductRepository repository,
-            ICacheService cache)
+            IProductRepository repository)
         {
             _repository = repository;
-            _cache = cache;
         }
 
         public async Task<bool> Handle(
             DeleteProductCommand request,
             CancellationToken cancellationToken)
         {
-            var product = await _repository.GetByIdAsync(request.Id);
+            var product = await _repository.GetByIdAsync(request.Id, cancellationToken);
 
             if (product == null)
-                throw new Exception("Product not found");
+                return false;
 
             product.Delete();
 
-            await _repository.SaveChangesAsync();
+            await _repository.SaveChangesAsync(cancellationToken);
 
-            // invalidate cache
-            await _cache.RemoveAsync($"product_{request.Id}");
-            await _cache.RemoveAsync("products");
+            // cache invalidation handled by domain event handlers
 
             return true;
         }
