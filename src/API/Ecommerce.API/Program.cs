@@ -16,7 +16,24 @@ builder.Services.AddControllers();
 builder.Services.AddCatalogModule(builder.Configuration);
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 builder.Services.AddProblemDetails();
-builder.Services.AddScoped<ICacheService, RedisCacheService>();
+
+// Configure cache: use Redis if connection string present, otherwise noop implementation
+var redisConn = builder.Configuration.GetConnectionString("Redis");
+if (!string.IsNullOrWhiteSpace(redisConn))
+{
+    builder.Services.AddStackExchangeRedisCache(options =>
+    {
+        options.Configuration = redisConn;
+        options.InstanceName = "ecommerce:";
+    });
+
+    builder.Services.AddScoped<ICacheService, RedisCacheService>();
+}
+else
+{
+    // No Redis configured -> register a no-op cache to avoid runtime failures
+    builder.Services.AddScoped<ICacheService, Ecommerce.API.Caching.NoopCacheService>();
+}
 builder.Services.AddValidatorsFromAssemblyContaining<CreateProductCommandValidator>();
 builder.Services.AddValidatorsFromAssemblyContaining<UpdateProductCommandValidator>();
 
@@ -29,14 +46,7 @@ Log.Logger = new LoggerConfiguration()
         "logs/log-.txt",
         rollingInterval: RollingInterval.Day)
     .CreateLogger();
-builder.Services.AddStackExchangeRedisCache(options =>
-{
-    options.Configuration =
-        builder.Configuration.GetConnectionString("Redis")
-        ?? "localhost:6379";
-
-    options.InstanceName = "ecommerce:";
-});
+// Redis configured above conditionally
 builder.Host.UseSerilog();
 var app = builder.Build();
 
