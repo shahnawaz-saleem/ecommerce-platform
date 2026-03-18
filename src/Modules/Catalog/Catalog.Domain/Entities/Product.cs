@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace Catalog.Domain.Entities
 {
-    public class Product
+    using MediatR;
+    using Catalog.Domain.DomainEvents;
+
+    public class Product : IHasDomainEvents
     {
         public Guid Id { get; private set; }
 
@@ -25,6 +28,9 @@ namespace Catalog.Domain.Entities
         public DateTime CreatedAt { get; private set; }
         public bool IsDeleted { get; private set; }
         public DateTime? DeletedAt { get; private set; }
+
+        private readonly List<DomainEvent> _domainEvents = new();
+        public IReadOnlyCollection<DomainEvent> DomainEvents => _domainEvents.AsReadOnly();
         private Product() { } // Required by EF Core
 
         public Product(
@@ -43,6 +49,10 @@ namespace Catalog.Domain.Entities
             VendorId = vendorId;
             StockQuantity = stockQuantity;
             CreatedAt = DateTime.UtcNow;
+
+            // raise created event
+            var createdEvent = new ProductCreatedEvent(Id, Name, Price, CategoryId);
+            _domainEvents.Add(createdEvent);
         }
         public void UpdatePrice(decimal newPrice)
         {
@@ -77,11 +87,21 @@ namespace Catalog.Domain.Entities
             Price = price;
             CategoryId = categoryId;
             StockQuantity = stockQuantity;
+
+            var updated = new ProductUpdatedEvent(Id, Name, Price, StockQuantity);
+            _domainEvents.Add(updated);
         }
         public void Delete()
         {
             IsDeleted = true;
             DeletedAt= DateTime.UtcNow;
+            var deleted = new ProductDeletedEvent(Id);
+            _domainEvents.Add(deleted);
+        }
+
+        public void ClearDomainEvents()
+        {
+            _domainEvents.Clear();
         }
     }
 }

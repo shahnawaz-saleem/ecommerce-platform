@@ -21,10 +21,10 @@ public class UpdateProductCommandHandler
         UpdateProductCommand request,
         CancellationToken cancellationToken)
     {
-        var product = await _repository.GetByIdAsync(request.Id);
+        var product = await _repository.GetByIdAsync(request.Id, cancellationToken);
 
         if (product == null)
-            throw new Exception("Product not found");
+            return false;
 
         product.Update(
             request.Name,
@@ -34,7 +34,7 @@ public class UpdateProductCommandHandler
             request.StockQuantity
         );
 
-        await _repository.SaveChangesAsync();
+        await _repository.SaveChangesAsync(cancellationToken);
 
         // invalidate cache
         await _cache.RemoveAsync($"product_{request.Id}");
