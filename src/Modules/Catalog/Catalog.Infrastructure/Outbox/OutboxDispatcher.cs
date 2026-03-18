@@ -53,11 +53,6 @@ public class OutboxDispatcher : BackgroundService
                         }
 
                         var evt = JsonSerializer.Deserialize(msg.Content, type);
-                        if (evt is MediatR.INotification notification)
-                        {
-                            await mediator.Publish(notification, stoppingToken);
-                        }
-
                         msg.ProcessedAt = DateTime.UtcNow;
                         msg.Attempts++;
                         await db.SaveChangesAsync(stoppingToken);
