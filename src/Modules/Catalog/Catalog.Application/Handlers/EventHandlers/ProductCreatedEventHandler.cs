@@ -3,7 +3,7 @@ using MediatR;
 using Microsoft.Extensions.Logging;
 using Messaging;
 using Catalog.Application.Interfaces;
-namespace Catalog.Application.Handlers;
+namespace Catalog.Application.Handlers.EventHandlers;
 
 public class ProductCreatedEventHandler : INotificationHandler<ProductCreatedEvent>
 {
