@@ -54,36 +54,21 @@ public class CatalogDbContext : DbContext
         var domainEvents = domainEntities
             .SelectMany(e => e!.DomainEvents)
             .ToList();
-
-        // Create outbox messages for reliable dispatch
-        foreach (var domainEvent in domainEvents)
-        {
-            var outbox = new OutboxMessage
-            {
-                Id = Guid.NewGuid(),
-                OccurredOn = DateTime.UtcNow,
-                Type = domainEvent.GetType().AssemblyQualifiedName ?? domainEvent.GetType().FullName,
-                Content = System.Text.Json.JsonSerializer.Serialize(domainEvent, domainEvent.GetType()),
-                Attempts = 0
-            };
-
-            await OutboxMessages.AddAsync(outbox, cancellationToken);
-        }
-
-        // Save changes (including outbox) within the same transaction
-        var result = await base.SaveChangesAsync(cancellationToken);
-
         // Publish events in-process
         foreach (var domainEvent in domainEvents)
         {
             await _mediator.Publish(domainEvent, cancellationToken);
         }
 
+       
         // Clear events
         foreach (var entity in domainEntities)
         {
             entity!.ClearDomainEvents();
         }
+
+        // Save changes (including outbox) within the same transaction
+        var result = await base.SaveChangesAsync(cancellationToken);
 
         return result;
     }

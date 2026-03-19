@@ -1,0 +1,14 @@
+﻿using Messaging;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Catalog.Application.Interfaces
+{
+   public interface  IOutboxRepository
+    {
+       Task AddAsync(IntegrationEvent integrationEvent, CancellationToken cancellationToken = default);
+    }
+}
