@@ -1,0 +1,178 @@
+# .NET 8 Clean Architecture Project Setup Script
+
+# Run commands step-by-step in terminal (PowerShell / Bash)
+
+# --------------------------------------------------
+
+# 1. Create root project folder
+
+# --------------------------------------------------
+
+mkdir ecommerce-platform
+cd ecommerce-platform
+
+# --------------------------------------------------
+
+# 2. Initialize Git repository
+
+# --------------------------------------------------
+
+git init
+
+# --------------------------------------------------
+
+# 3. Create solution file (.sln)
+
+# This will manage all projects in the repository
+
+# --------------------------------------------------
+
+dotnet new sln -n Ecommerce
+
+# --------------------------------------------------
+
+# 4. Create base folder structure
+
+# src -> application source code
+
+# tests -> unit/integration tests
+
+# docs -> documentation
+
+# building-blocks -> shared libraries
+
+# --------------------------------------------------
+
+mkdir src
+mkdir tests
+mkdir docs
+mkdir building-blocks
+
+# --------------------------------------------------
+
+# 5. Create projects (.NET 8)
+
+# --------------------------------------------------
+
+cd src
+
+# API project (ASP.NET Core Web API)
+
+dotnet new webapi -n Ecommerce.API -f net8.0
+
+# Application layer (business logic)
+
+dotnet new classlib -n Ecommerce.Application -f net8.0
+
+# Domain layer (entities, domain models)
+
+dotnet new classlib -n Ecommerce.Domain -f net8.0
+
+# Infrastructure layer (database, external services)
+
+dotnet new classlib -n Ecommerce.Infrastructure -f net8.0
+
+# Return to root directory
+
+cd ..
+
+# --------------------------------------------------
+
+# 6. Create test project
+
+# --------------------------------------------------
+
+cd tests
+
+# xUnit test project
+
+dotnet new xunit -n Ecommerce.Tests -f net8.0
+
+cd ..
+
+# --------------------------------------------------
+
+# 7. Add all projects to the solution
+
+# --------------------------------------------------
+
+dotnet sln add src/Ecommerce.API/Ecommerce.API.csproj
+dotnet sln add src/Ecommerce.Application/Ecommerce.Application.csproj
+dotnet sln add src/Ecommerce.Domain/Ecommerce.Domain.csproj
+dotnet sln add src/Ecommerce.Infrastructure/Ecommerce.Infrastructure.csproj
+dotnet sln add tests/Ecommerce.Tests/Ecommerce.Tests.csproj
+
+# Verify projects added
+
+dotnet sln list
+
+# --------------------------------------------------
+
+# 8. Add project references (Clean Architecture rules)
+
+# --------------------------------------------------
+
+# API depends on Application
+
+dotnet add src/Ecommerce.API reference src/Ecommerce.Application
+
+# Application depends on Domain
+
+dotnet add src/Ecommerce.Application reference src/Ecommerce.Domain
+
+# Infrastructure depends on Application and Domain
+
+dotnet add src/Ecommerce.Infrastructure reference src/Ecommerce.Application
+dotnet add src/Ecommerce.Infrastructure reference src/Ecommerce.Domain
+
+# Tests depend on Application and Domain
+
+dotnet add tests/Ecommerce.Tests reference src/Ecommerce.Application
+dotnet add tests/Ecommerce.Tests reference src/Ecommerce.Domain
+
+# --------------------------------------------------
+
+# 9. Add official .NET gitignore
+
+# Prevents bin, obj, dll, etc from being committed
+
+# --------------------------------------------------
+
+dotnet new gitignore
+
+# --------------------------------------------------
+
+# 10. Build the solution
+
+# --------------------------------------------------
+
+dotnet build
+
+# --------------------------------------------------
+
+# 11. Run the API
+
+# --------------------------------------------------
+
+dotnet run --project src/Ecommerce.API
+
+# Swagger will be available at:
+
+# [https://localhost:xxxx/swagger](https://localhost:xxxx/swagger)
+
+# --------------------------------------------------
+
+# 12. First Git commit
+
+# --------------------------------------------------
+
+git add .
+git commit -m "Initial .NET 8 Clean Architecture setup"
+
+# Add remote repository if needed
+
+# git remote add origin <repository-url>
+
+# Push code
+
+# git push -u origin main

@@ -1,0 +1,4 @@
+cd "C:\Users\Hayan Andrabi\source\repos\InterviewApi\InterviewApi"
+dotnet ef migrations add AddProductTable
+dotnet ef database update
+dotnet ef migrations add InitialCreate

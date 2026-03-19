@@ -1,0 +1,239 @@
+# ============================================================
+
+# ECOMMERCE PLATFORM - FULL PROJECT BOOTSTRAP SCRIPT (.NET 8)
+
+# Creates Modular Monolith Architecture
+
+# ============================================================
+
+# ------------------------------------------------------------
+
+# 1. Create Root Folder
+
+# ------------------------------------------------------------
+
+mkdir ecommerce-platform
+cd ecommerce-platform
+
+# ------------------------------------------------------------
+
+# 2. Initialize Git
+
+# ------------------------------------------------------------
+
+git init
+
+# ------------------------------------------------------------
+
+# 3. Create Solution
+
+# ------------------------------------------------------------
+
+dotnet new sln -n Ecommerce
+
+# ------------------------------------------------------------
+
+# 4. Create Base Folder Structure
+
+# ------------------------------------------------------------
+
+mkdir src
+mkdir src/API
+mkdir src/Modules
+mkdir src/BuildingBlocks
+mkdir src/Infrastructure
+mkdir tests
+mkdir docs
+
+# ============================================================
+
+# API PROJECT
+
+# ============================================================
+
+cd src/API
+dotnet new webapi -n Ecommerce.API -f net8.0
+cd ../../
+
+dotnet sln add src/API/Ecommerce.API/Ecommerce.API.csproj
+
+# ============================================================
+
+# MODULES
+
+# ============================================================
+
+cd src/Modules
+
+# ------------------------------------------------------------
+
+# CATALOG MODULE
+
+# ------------------------------------------------------------
+
+mkdir Catalog
+cd Catalog
+
+dotnet new classlib -n Catalog.Domain -f net8.0
+dotnet new classlib -n Catalog.Application -f net8.0
+dotnet new classlib -n Catalog.Infrastructure -f net8.0
+dotnet new classlib -n Catalog.API -f net8.0
+
+cd ../../..
+
+dotnet sln add src/Modules/Catalog/Catalog.Domain/Catalog.Domain.csproj
+dotnet sln add src/Modules/Catalog/Catalog.Application/Catalog.Application.csproj
+dotnet sln add src/Modules/Catalog/Catalog.Infrastructure/Catalog.Infrastructure.csproj
+dotnet sln add src/Modules/Catalog/Catalog.API/Catalog.API.csproj
+
+# ------------------------------------------------------------
+
+# BASKET MODULE
+
+# ------------------------------------------------------------
+
+cd src/Modules
+mkdir Basket
+cd Basket
+
+dotnet new classlib -n Basket.Domain -f net8.0
+dotnet new classlib -n Basket.Application -f net8.0
+dotnet new classlib -n Basket.Infrastructure -f net8.0
+dotnet new classlib -n Basket.API -f net8.0
+
+cd ../../..
+
+dotnet sln add src/Modules/Basket/Basket.Domain/Basket.Domain.csproj
+dotnet sln add src/Modules/Basket/Basket.Application/Basket.Application.csproj
+dotnet sln add src/Modules/Basket/Basket.Infrastructure/Basket.Infrastructure.csproj
+dotnet sln add src/Modules/Basket/Basket.API/Basket.API.csproj
+
+# ------------------------------------------------------------
+
+# ORDERS MODULE
+
+# ------------------------------------------------------------
+
+cd src/Modules
+mkdir Orders
+cd Orders
+
+dotnet new classlib -n Orders.Domain -f net8.0
+dotnet new classlib -n Orders.Application -f net8.0
+dotnet new classlib -n Orders.Infrastructure -f net8.0
+dotnet new classlib -n Orders.API -f net8.0
+
+cd ../../..
+
+dotnet sln add src/Modules/Orders/Orders.Domain/Orders.Domain.csproj
+dotnet sln add src/Modules/Orders/Orders.Application/Orders.Application.csproj
+dotnet sln add src/Modules/Orders/Orders.Infrastructure/Orders.Infrastructure.csproj
+dotnet sln add src/Modules/Orders/Orders.API/Orders.API.csproj
+
+# ------------------------------------------------------------
+
+# PAYMENTS MODULE
+
+# ------------------------------------------------------------
+
+cd src/Modules
+mkdir Payments
+cd Payments
+
+dotnet new classlib -n Payments.Domain -f net8.0
+dotnet new classlib -n Payments.Application -f net8.0
+dotnet new classlib -n Payments.Infrastructure -f net8.0
+dotnet new classlib -n Payments.API -f net8.0
+
+cd ../../..
+
+dotnet sln add src/Modules/Payments/Payments.Domain/Payments.Domain.csproj
+dotnet sln add src/Modules/Payments/Payments.Application/Payments.Application.csproj
+dotnet sln add src/Modules/Payments/Payments.Infrastructure/Payments.Infrastructure.csproj
+dotnet sln add src/Modules/Payments/Payments.API/Payments.API.csproj
+
+# ============================================================
+
+# BUILDING BLOCKS
+
+# ============================================================
+
+cd src/BuildingBlocks
+
+dotnet new classlib -n Messaging -f net8.0
+dotnet new classlib -n Exceptions -f net8.0
+dotnet new classlib -n Logging -f net8.0
+dotnet new classlib -n Validation -f net8.0
+
+cd ../..
+
+dotnet sln add src/BuildingBlocks/Messaging/Messaging.csproj
+dotnet sln add src/BuildingBlocks/Exceptions/Exceptions.csproj
+dotnet sln add src/BuildingBlocks/Logging/Logging.csproj
+dotnet sln add src/BuildingBlocks/Validation/Validation.csproj
+
+# ============================================================
+
+# TEST PROJECT
+
+# ============================================================
+
+cd tests
+dotnet new xunit -n Ecommerce.Tests -f net8.0
+cd ..
+
+dotnet sln add tests/Ecommerce.Tests/Ecommerce.Tests.csproj
+
+# ============================================================
+
+# GIT IGNORE
+
+# ============================================================
+
+dotnet new gitignore
+
+# ============================================================
+
+# BUILD SOLUTION
+
+# ============================================================
+
+dotnet build
+
+# ============================================================
+
+# INITIAL COMMIT
+
+# ============================================================
+
+git add .
+git commit -m "Initial modular monolith architecture setup (.NET 8)"
+--day 22--
+dotnet add src/Modules/Catalog/Catalog.Application/Catalog.Application.csproj reference src/Modules/Catalog/Catalog.Domain/Catalog.Domain.csproj
+
+
+dotnet add src/Modules/Catalog/Catalog.Infrastructure/Catalog.Infrastructure.csproj reference src/Modules/Catalog/Catalog.Application/Catalog.Application.csproj
+
+dotnet add src/Modules/Catalog/Catalog.Infrastructure/Catalog.Infrastructure.csproj reference src/Modules/Catalog/Catalog.Domain/Catalog.Domain.csproj
+
+dotnet add src/Modules/Catalog/Catalog.API/Catalog.API.csproj reference src/Modules/Catalog/Catalog.Application/Catalog.Application.csproj
+
+
+dotnet add src/API/Ecommerce.API/Ecommerce.API.csproj reference src/Modules/Catalog/Catalog.API/Catalog.API.csproj
+
+
+dotnet add src/Modules/Catalog/Catalog.Application package MediatR
+dotnet add src/Modules/Catalog/Catalog.Application package FluentValidation
+
+dotnet add src/Modules/Catalog/Catalog.Infrastructure package Microsoft.EntityFrameworkCore -v 8.0
+dotnet add src/Modules/Catalog/Catalog.Infrastructure package Microsoft.EntityFrameworkCore.SqlServer -v 8.0
+dotnet add src/Modules/Catalog/Catalog.Infrastructure package Microsoft.EntityFrameworkCore.Design -v 8.0
+
+
+dotnet add src/Modules/Catalog/Catalog.API package MediatR -v 8.0
+
+--migrations
+dotnet ef migrations add InitialCatalog --project src/Modules/Catalog/Catalog.Infrastructure --startup-project src/API/Ecommerce.API --context CatalogDb
+dotnet ef database update --project src/Modules/Catalog/Catalog.Infrastructure --startup-project src/API/Ecommerce.API
+
+dotnet ef database update --project src/Modules/Catalog/Catalog.Infrastructure --startup-project src/API/Ecommerce.API --context CatalogDbContext -v
