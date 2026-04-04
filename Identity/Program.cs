@@ -4,25 +4,35 @@ using Microsoft.EntityFrameworkCore;
 using Duende.IdentityServer.Services;
 
 var builder = WebApplication.CreateBuilder(args);
+
+
+
 // DB
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddAuthorization();
+
+
+
 // CORS for SPA clients
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(policy =>
-        policy.WithOrigins("https://localhost:4200")
+        policy.WithOrigins("https://localhost:7128")
               .AllowAnyHeader()
               .AllowAnyMethod()
               .AllowCredentials());
 });
+
+
 // ASP.NET Identity
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddEntityFrameworkStores<AppDbContext>()
     .AddDefaultTokenProviders();
 // custom profile service
 builder.Services.AddScoped<IProfileService, CustomProfileService>();
+
+
 // IdentityServer 
 builder.Services.AddIdentityServer(options =>
 {
@@ -34,15 +44,20 @@ builder.Services.AddIdentityServer(options =>
     .AddAspNetIdentity<ApplicationUser>();
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
+builder.Services.AddAuthentication();
 var app = builder.Build();
+
 app.UseStaticFiles();
 app.UseRouting();
 app.UseCors();
-app.UseAuthentication();
 app.UseIdentityServer();
+app.UseAuthentication();
 app.UseAuthorization();
 app.MapRazorPages();
-app.MapGet("/", () => "Hello World!");
+app.MapGet("/", (HttpContext ctx) =>
+{
+    return Results.Redirect("/.well-known/openid-configuration");
+});
 using (var scope = app.Services.CreateScope())
 {
     var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();

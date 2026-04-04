@@ -30,7 +30,8 @@ namespace Identity
             SlidingRefreshTokenLifetime = 1296000,  // 15 days
             RefreshTokenUsage = TokenUsage.ReUse,
             RefreshTokenExpiration = TokenExpiration.Sliding,
-            RedirectUris = { "https://localhost:4200/callback" },
+            RedirectUris = { "https://localhost:7054/" },
+            PostLogoutRedirectUris = { "https://localhost:7054/signout-callback-oidc" },
             AllowedCorsOrigins = { "https://localhost:4200" },
 
             AllowedScopes =
