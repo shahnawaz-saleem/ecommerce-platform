@@ -4,8 +4,22 @@ namespace Identity
 {
     public static class DbSeeder
     {
-        public static async Task SeedAsync(UserManager<ApplicationUser> userManager)
+        public static async Task SeedAsync(
+     UserManager<ApplicationUser> userManager,
+     RoleManager<IdentityRole> roleManager)
         {
+            // Roles
+            string[] roles = { "Admin", "User" };
+
+            foreach (var role in roles)
+            {
+                if (!await roleManager.RoleExistsAsync(role))
+                {
+                    await roleManager.CreateAsync(new IdentityRole(role));
+                }
+            }
+
+            // User
             var email = "admin@test.com";
             var password = "Admin@123";
 
@@ -16,10 +30,16 @@ namespace Identity
                 user = new ApplicationUser
                 {
                     UserName = email,
-                    Email = email,FullName = "admincer"
+                    Email = email
                 };
 
                 await userManager.CreateAsync(user, password);
+            }
+
+            // Assign role
+            if (!await userManager.IsInRoleAsync(user, "Admin"))
+            {
+                await userManager.AddToRoleAsync(user, "Admin");
             }
         }
     }

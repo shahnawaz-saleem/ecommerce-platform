@@ -1,0 +1,24 @@
+﻿@page
+@model Identity.pages.Account.LoginModel
+@{
+}
+<h2>Login</h2>
+
+<form method="post">
+    <div>
+        <label>Username</label>
+        <input asp-for="Username" />
+    </div>
+
+    <div>
+        <label>Password</label>
+        <input asp-for="Password" type="password" />
+    </div>
+
+    <button type="submit">Login</button>
+</form>
+
+@if (!string.IsNullOrEmpty(Model.Error))
+{
+    <p style="color:red">@Model.Error</p>
+}

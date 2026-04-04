@@ -24,7 +24,12 @@ namespace Identity
             AllowedGrantTypes = GrantTypes.Code,
             RequirePkce = true,
             RequireClientSecret = false,
-
+            AllowOfflineAccess= true,
+            AccessTokenLifetime = 900, // 15 mins
+            AbsoluteRefreshTokenLifetime = 2592000, // 30 days
+            SlidingRefreshTokenLifetime = 1296000,  // 15 days
+            RefreshTokenUsage = TokenUsage.ReUse,
+            RefreshTokenExpiration = TokenExpiration.Sliding,
             RedirectUris = { "https://localhost:4200/callback" },
 
             AllowedScopes =
