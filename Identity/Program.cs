@@ -40,7 +40,7 @@ builder.Services.AddScoped<IProfileService, CustomProfileService>();
 // IdentityServer 
 builder.Services.AddIdentityServer(options =>
 {
-    options.UserInteraction.LoginUrl = "/Account/Login";
+    options.UserInteraction.LoginUrl = "/Account/LoginModel";
 }).AddDeveloperSigningCredential()
     .AddInMemoryClients(Config.Clients)
     .AddInMemoryApiScopes(Config.Scopes)

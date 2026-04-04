@@ -4,6 +4,7 @@ using Catalog.Application.Products.Commands.DeleteProduct;
 using Ecommerce.API.Caching;
 using FluentValidation;
 using MediatR;
+using Microsoft.IdentityModel.Tokens;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -51,11 +52,29 @@ builder.Host.UseSerilog();
 builder.Services.AddAuthentication("Bearer")
     .AddJwtBearer("Bearer", options =>
     {
-        options.Authority = "https://localhost:5285";
+        options.Authority = "https://localhost:7054";
         options.Audience = "catalog.api";
+        options.RequireHttpsMetadata = false; // dev only
+
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateAudience = false
+        };
+
+        options.BackchannelHttpHandler = new HttpClientHandler
+        {
+            ServerCertificateCustomValidationCallback =
+                HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
+        };
     });
 builder.Services.AddAuthorizationBuilder()
-    .AddPolicy("CanUpdateCatalog", p => p.RequireClaim("scope", "catalog.update"));
+    .AddPolicy("CanUpdateCatalog", p => p.RequireClaim("scope", "catalog.update"))
+    .AddPolicy("CatalogRead", policy =>
+    {
+        policy.RequireAuthenticatedUser();
+        policy.RequireClaim("scope", "catalog.read");
+    });
+;
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())

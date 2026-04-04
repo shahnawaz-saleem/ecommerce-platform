@@ -12,7 +12,7 @@ namespace Catalog.API.Controllers;
 
 [ApiController]
 [Route("api/catalog/products")]
-[Authorize]
+
 public class ProductsController : ControllerBase
 {
     private readonly IMediator _mediator;
@@ -41,6 +41,7 @@ public class ProductsController : ControllerBase
         return Ok(result);
     }
     [HttpGet("{id}")]
+    [Authorize(Policy = "CatalogRead")]
     public async Task<IActionResult> GetProduct(Guid id, CancellationToken cancellationToken = default)
     {
         var product = await _mediator.Send(
