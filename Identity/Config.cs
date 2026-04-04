@@ -44,7 +44,26 @@ namespace Identity
                 "catalog.update",
                 "catalog.delete"
             }
-        }
+        },
+        new Client
+{
+    ClientId = "postman-client",
+    ClientSecrets = { new Secret("secret".Sha256()) },
+
+    AllowedGrantTypes = GrantTypes.Code,
+
+    RedirectUris = { "https://oauth.pstmn.io/v1/callback" },
+
+    AllowedScopes =
+    {
+        "openid",
+        "profile",
+        "catalog.read"
+    },
+
+    RequirePkce = true,
+    RequireClientSecret = false // important for Postman PKCE
+}
             };
 
         public static List<TestUser> Users =>

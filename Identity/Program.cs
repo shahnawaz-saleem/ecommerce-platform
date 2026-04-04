@@ -22,6 +22,10 @@ builder.Services.AddCors(options =>
               .AllowAnyHeader()
               .AllowAnyMethod()
               .AllowCredentials());
+    options.AddPolicy("AllowPostman", policy =>
+        policy.WithOrigins("https://oauth.pstmn.io")
+              .AllowAnyHeader()
+              .AllowAnyMethod());
 });
 
 
