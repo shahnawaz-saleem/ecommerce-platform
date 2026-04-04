@@ -5,12 +5,14 @@ using Catalog.Application.Queries.GetProductById;
 using Catalog.Application.Queries.GetProducts;
 using Catalog.Application.Queries.SearchProducts;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Catalog.API.Controllers;
 
 [ApiController]
 [Route("api/catalog/products")]
+[Authorize]
 public class ProductsController : ControllerBase
 {
     private readonly IMediator _mediator;
@@ -50,6 +52,7 @@ public class ProductsController : ControllerBase
         return Ok(product);
     }
     [HttpPut("{id}")]
+    [Authorize(Policy = "CanUpdateCatalog")]
     public async Task<IActionResult> UpdateProduct(
     Guid id,
     UpdateProductCommand command,

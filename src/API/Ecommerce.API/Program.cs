@@ -48,6 +48,14 @@ Log.Logger = new LoggerConfiguration()
     .CreateLogger();
 // Redis configured above conditionally
 builder.Host.UseSerilog();
+builder.Services.AddAuthentication("Bearer")
+    .AddJwtBearer("Bearer", options =>
+    {
+        options.Authority = "https://localhost:5001";
+        options.Audience = "catalog.api";
+    });
+builder.Services.AddAuthorizationBuilder()
+    .AddPolicy("CanUpdateCatalog", p => p.RequireClaim("scope", "catalog.update"));
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
