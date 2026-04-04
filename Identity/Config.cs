@@ -68,7 +68,8 @@ namespace Identity
             {
         new ApiResource("catalog.api", "Catalog API")
         {
-            Scopes = { "catalog.read", "catalog.create", "catalog.update", "catalog.delete" }
+            Scopes = { "catalog.read", "catalog.create", "catalog.update", "catalog.delete" },
+            UserClaims = { "role" }
         }
             };
         public static IEnumerable<IdentityResource> IdentityResources =>

@@ -16,7 +16,7 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
 builder.Services.AddIdentityServer().AddDeveloperSigningCredential()
     .AddInMemoryClients(Config.Clients)
     .AddInMemoryApiScopes(Config.Scopes)
-    .AddInMemoryIdentityResources(Config.IdentityResources)
+    .AddInMemoryIdentityResources(Config.IdentityResources).AddInMemoryApiResources(Config.Resources)
     .AddAspNetIdentity<ApplicationUser>();
 var app = builder.Build();
 
