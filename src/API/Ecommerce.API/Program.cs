@@ -58,7 +58,7 @@ builder.Services.AddAuthentication("Bearer")
 
         options.TokenValidationParameters = new TokenValidationParameters
         {
-            ValidateAudience = false
+            ValidateAudience = true
         };
 
         options.BackchannelHttpHandler = new HttpClientHandler
@@ -84,7 +84,8 @@ if (app.Environment.IsDevelopment())
 }
 app.UseExceptionHandler();
 app.UseHttpsRedirection();
-
+app.UseAuthentication();   
+app.UseAuthorization();
 app.MapControllers();
 app.Run();
 
