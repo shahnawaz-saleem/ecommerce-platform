@@ -38,4 +38,5 @@
   <Folder Name="/tests/">
     <Project Path="tests/Ecommerce.Tests/Ecommerce.Tests.csproj" />
   </Folder>
+  <Project Path="Identity/Identity.csproj" />
 </Solution>
