@@ -31,11 +31,13 @@ namespace Identity
             RefreshTokenUsage = TokenUsage.ReUse,
             RefreshTokenExpiration = TokenExpiration.Sliding,
             RedirectUris = { "https://localhost:4200/callback" },
+            AllowedCorsOrigins = { "https://localhost:4200" },
 
             AllowedScopes =
             {
                 "openid",
                 "profile",
+                "offline_access",
                 "catalog.read",
                 "catalog.create",
                 "catalog.update",

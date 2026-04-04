@@ -51,7 +51,7 @@ builder.Host.UseSerilog();
 builder.Services.AddAuthentication("Bearer")
     .AddJwtBearer("Bearer", options =>
     {
-        options.Authority = "https://localhost:5001";
+        options.Authority = "https://localhost:5285";
         options.Audience = "catalog.api";
     });
 builder.Services.AddAuthorizationBuilder()
