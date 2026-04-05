@@ -1,4 +1,4 @@
-using Catalog.API;
+﻿using Catalog.API;
 using Catalog.Application.Products.Commands.CreateProduct;
 using Catalog.Application.Products.Commands.DeleteProduct;
 using Ecommerce.API.Caching;
@@ -52,8 +52,18 @@ builder.Host.UseSerilog();
 builder.Services.AddAuthentication("Bearer")
     .AddJwtBearer("Bearer", options =>
     {
-        options.Authority = "https://localhost:7054";
+        options.Authority = "https://127.0.0.1:7054";   
         options.Audience = "catalog.api";
+
+        options.RequireHttpsMetadata = false;           
+
+        options.BackchannelHttpHandler = new HttpClientHandler
+        {
+            ServerCertificateCustomValidationCallback =
+                HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
+        };
+
+        options.MapInboundClaims = false;
     });
 builder.Services.AddAuthorizationBuilder()
     .AddPolicy("CanUpdateCatalog", p => p.RequireClaim("scope", "catalog.update"))

@@ -48,7 +48,6 @@ builder.Services.AddIdentityServer(options =>
     .AddAspNetIdentity<ApplicationUser>();
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
-builder.Services.AddAuthentication();
 var app = builder.Build();
 
 app.UseStaticFiles();
