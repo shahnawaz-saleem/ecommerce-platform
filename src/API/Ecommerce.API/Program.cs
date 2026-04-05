@@ -54,18 +54,6 @@ builder.Services.AddAuthentication("Bearer")
     {
         options.Authority = "https://localhost:7054";
         options.Audience = "catalog.api";
-        options.RequireHttpsMetadata = false; // dev only
-
-        options.TokenValidationParameters = new TokenValidationParameters
-        {
-            ValidateAudience = true
-        };
-
-        options.BackchannelHttpHandler = new HttpClientHandler
-        {
-            ServerCertificateCustomValidationCallback =
-                HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
-        };
     });
 builder.Services.AddAuthorizationBuilder()
     .AddPolicy("CanUpdateCatalog", p => p.RequireClaim("scope", "catalog.update"))

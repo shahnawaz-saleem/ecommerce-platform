@@ -4,11 +4,11 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Identity.pages.Account
 {
-    public class LoginModel : PageModel
+    public class Login : PageModel
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
 
-        public LoginModel(SignInManager<ApplicationUser> signInManager)
+        public Login(SignInManager<ApplicationUser> signInManager)
         {
             _signInManager = signInManager;
         }
