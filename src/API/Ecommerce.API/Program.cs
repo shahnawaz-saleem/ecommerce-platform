@@ -71,7 +71,6 @@ builder.Services.AddAuthorizationBuilder()
     .AddPolicy("CanUpdateCatalog", p => p.RequireClaim("scope", "catalog.update"))
     .AddPolicy("CatalogRead", policy =>
     {
-        policy.RequireAuthenticatedUser();
         policy.RequireClaim("scope", "catalog.read");
     });
 ;
