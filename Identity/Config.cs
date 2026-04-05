@@ -64,6 +64,16 @@ namespace Identity
     RequirePkce = true,
     RequireClientSecret = false // important for Postman PKCE
 }
+
+        ,new Client
+{
+    ClientId = "postman-clientM2M",
+    ClientSecrets = { new Secret("secret".Sha256()) },
+
+    AllowedGrantTypes = GrantTypes.ClientCredentials,
+
+    AllowedScopes = { "catalog.read" }
+}
             };
 
         public static List<TestUser> Users =>
