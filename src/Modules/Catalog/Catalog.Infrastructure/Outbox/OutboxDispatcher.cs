@@ -47,15 +47,51 @@ public class OutboxDispatcher : BackgroundService
                         {
                             _logger.LogWarning("Outbox message type not found: {Type}", msg.Type);
                             msg.Attempts++;
-                            msg.ProcessedAt = DateTime.UtcNow;
                             await db.SaveChangesAsync(stoppingToken);
                             continue;
                         }
 
                         var evt = JsonSerializer.Deserialize(msg.Content, type);
-                        msg.ProcessedAt = DateTime.UtcNow;
-                        msg.Attempts++;
-                        await db.SaveChangesAsync(stoppingToken);
+                        if (evt == null)
+                        {
+                            _logger.LogWarning("Failed to deserialize outbox message {Id} to type {Type}", msg.Id, msg.Type);
+                            msg.Attempts++;
+                            await db.SaveChangesAsync(stoppingToken);
+                            continue;
+                        }
+
+                        // If the deserialized event is an IntegrationEvent (IRequest<bool>) we send it to MediatR
+                        if (evt is MediatR.IRequest<bool> request)
+                        {
+                            var success = await mediator.Send(request, stoppingToken);
+
+                            if (success)
+                            {
+                                msg.ProcessedAt = DateTime.UtcNow;
+                                msg.Attempts++;
+                                await db.SaveChangesAsync(stoppingToken);
+                            }
+                            else
+                            {
+                                // increment attempts and leave for retry
+                                msg.Attempts++;
+                                await db.SaveChangesAsync(stoppingToken);
+                            }
+                        }
+                        else if (evt is MediatR.INotification notification)
+                        {
+                            // fallback: publish domain/notification events in-process
+                            await mediator.Publish(notification, stoppingToken);
+                            msg.ProcessedAt = DateTime.UtcNow;
+                            msg.Attempts++;
+                            await db.SaveChangesAsync(stoppingToken);
+                        }
+                        else
+                        {
+                            _logger.LogWarning("Outbox message {Id} deserialized to unsupported type {Type}", msg.Id, msg.Type);
+                            msg.Attempts++;
+                            await db.SaveChangesAsync(stoppingToken);
+                        }
                     }
                     catch (Exception ex)
                     {

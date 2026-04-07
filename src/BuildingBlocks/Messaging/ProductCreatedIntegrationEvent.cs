@@ -1,3 +1,5 @@
+using MediatR;
+
 namespace Messaging;
 
 public class ProductCreatedIntegrationEvent : IntegrationEvent
