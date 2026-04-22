@@ -74,6 +74,14 @@ public class InventoryRepository : IInventoryRepository
             .ToListAsync();
     }
 
+    public async Task<IEnumerable<InventoryItem>> GetLowStockItemsAsync(int threshold, CancellationToken cancellationToken = default)
+    {
+        return await _db.InventoryItems
+            .Where(i => (i.TotalStock - i.ReservedStock) > 0 && (i.TotalStock - i.ReservedStock) <= threshold)
+            .OrderBy(i => i.TotalStock - i.ReservedStock)
+            .ToListAsync(cancellationToken);
+    }
+
     public async Task UpdateAsync(InventoryItem item)
     {
         _db.InventoryItems.Update(item);

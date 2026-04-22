@@ -45,6 +45,13 @@ public class InventoryController : ControllerBase
         return Ok(dto);
     }
 
+    [HttpGet("alerts")]
+    public async Task<IActionResult> GetLowStockAlerts([FromQuery] int threshold = 5, CancellationToken cancellationToken = default)
+    {
+        var alerts = await _mediator.Send(new Inventory.Application.Queries.GetLowStockAlerts.GetLowStockAlertsQuery(threshold), cancellationToken);
+        return Ok(alerts);
+    }
+
     [HttpPost]
     public async Task<IActionResult> Create([FromBody] CreateInventoryItemCommand command)
     {

@@ -15,4 +15,5 @@ public interface IInventoryRepository
     Task<int> CountLowStockAsync(int threshold, CancellationToken cancellationToken = default);
     Task<int> CountOutOfStockAsync(CancellationToken cancellationToken = default);
     Task<IEnumerable<InventoryItem>> GetRecentRestocksAsync(int limit);
+    Task<IEnumerable<InventoryItem>> GetLowStockItemsAsync(int threshold, CancellationToken cancellationToken = default);
 }
