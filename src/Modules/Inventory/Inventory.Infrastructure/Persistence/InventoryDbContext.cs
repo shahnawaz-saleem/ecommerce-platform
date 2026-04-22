@@ -26,6 +26,8 @@ public class InventoryDbContext : DbContext
             entity.Ignore(i => i.DomainEvents);
             // Configure RowVersion as concurrency token
             entity.Property<byte[]>("RowVersion").IsRowVersion();
+            entity.Property(p => p.CreatedAt);
+            entity.Property(p => p.LastRestockedAt);
             entity.HasQueryFilter(p => !p.IsDeleted);
         });
 

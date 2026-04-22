@@ -18,6 +18,8 @@ public class InventoryItem : Inventory.Domain.DomainEvents.IHasDomainEvents
     public int AvailableStock => TotalStock - ReservedStock;
 
     public bool IsDeleted { get; private set; }
+    public DateTime CreatedAt { get; private set; }
+    public DateTime? LastRestockedAt { get; private set; }
     // Concurrency token for optimistic concurrency control
     public byte[] RowVersion { get; private set; }
 
@@ -33,6 +35,8 @@ public class InventoryItem : Inventory.Domain.DomainEvents.IHasDomainEvents
         TotalStock = 0;
         ReservedStock = 0;
         IsDeleted = false;
+        CreatedAt = DateTime.UtcNow;
+        LastRestockedAt = null;
 
         _domainEvents.Add(new InventoryCreatedEvent(ProductId, TotalStock));
     }
@@ -43,6 +47,7 @@ public class InventoryItem : Inventory.Domain.DomainEvents.IHasDomainEvents
             throw new ArgumentException("Invalid quantity", nameof(quantity));
 
         TotalStock += quantity;
+        LastRestockedAt = DateTime.UtcNow;
 
         _domainEvents.Add(new InventoryUpdatedEvent(ProductId, TotalStock, ReservedStock));
     }

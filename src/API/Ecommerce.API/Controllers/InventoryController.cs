@@ -38,6 +38,13 @@ public class InventoryController : ControllerBase
         return Ok(items);
     }
 
+    [HttpGet("dashboard")]
+    public async Task<IActionResult> GetDashboard(CancellationToken cancellationToken)
+    {
+        var dto = await _mediator.Send(new Inventory.Application.Queries.GetInventoryDashboard.GetInventoryDashboardQuery(), cancellationToken);
+        return Ok(dto);
+    }
+
     [HttpPost]
     public async Task<IActionResult> Create([FromBody] CreateInventoryItemCommand command)
     {

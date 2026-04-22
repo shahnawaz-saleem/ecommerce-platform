@@ -55,6 +55,25 @@ public class InventoryRepository : IInventoryRepository
         await _db.SaveChangesAsync(cancellationToken);
     }
 
+    public async Task<int> CountLowStockAsync(int threshold, CancellationToken cancellationToken = default)
+    {
+        return await _db.InventoryItems.CountAsync(i => (i.TotalStock - i.ReservedStock) <= threshold, cancellationToken);
+    }
+
+    public async Task<int> CountOutOfStockAsync(CancellationToken cancellationToken = default)
+    {
+        return await _db.InventoryItems.CountAsync(i => (i.TotalStock - i.ReservedStock) <= 0, cancellationToken);
+    }
+
+    public async Task<IEnumerable<InventoryItem>> GetRecentRestocksAsync(int limit)
+    {
+        return await _db.InventoryItems
+            .Where(i => i.LastRestockedAt != null)
+            .OrderByDescending(i => i.LastRestockedAt)
+            .Take(limit)
+            .ToListAsync();
+    }
+
     public async Task UpdateAsync(InventoryItem item)
     {
         _db.InventoryItems.Update(item);
