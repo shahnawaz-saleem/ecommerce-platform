@@ -1,5 +1,9 @@
-using Inventory.Application.Interfaces;
 using Inventory.Domain.Entities;
+using MediatR;
+using Inventory.Application.Queries.GetInventoryById;
+using Inventory.Application.Queries.GetInventories;
+using Inventory.Application.Commands.CreateInventoryItem;
+using Inventory.Application.Commands.UpdateInventoryItem;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Ecommerce.API.Controllers;
@@ -8,39 +12,41 @@ namespace Ecommerce.API.Controllers;
 [Route("api/[controller]")]
 public class InventoryController : ControllerBase
 {
-    private readonly IInventoryRepository _repo;
+    private readonly IMediator _mediator;
 
-    public InventoryController(IInventoryRepository repo)
+    public InventoryController(IMediator mediator)
     {
-        _repo = repo;
+        _mediator = mediator;
     }
 
     [HttpGet("{id}")]
     public async Task<IActionResult> Get(Guid id)
     {
-        var item = await _repo.GetByIdAsync(id);
+        var item = await _mediator.Send(new GetInventoryByIdQuery(id));
         if (item == null) return NotFound();
         return Ok(item);
     }
 
-    [HttpPost]
-    public async Task<IActionResult> Create([FromBody] InventoryItem item)
+    [HttpGet]
+    public async Task<IActionResult> GetAll(int page = 1, int pageSize = 10)
     {
-        if (item == null) return BadRequest();
-        item.Id = Guid.NewGuid();
-        await _repo.AddAsync(item);
-        return CreatedAtAction(nameof(Get), new { id = item.Id }, item);
+        var items = await _mediator.Send(new GetInventoriesQuery(page, pageSize));
+        return Ok(items);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Create([FromBody] CreateInventoryItemCommand command)
+    {
+        if (command == null) return BadRequest();
+        var id = await _mediator.Send(command);
+        return CreatedAtAction(nameof(Get), new { id }, null);
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> Update(Guid id, [FromBody] InventoryItem item)
+    public async Task<IActionResult> Update(Guid id, [FromBody] UpdateInventoryItemCommand command)
     {
-        if (item == null || id != item.Id) return BadRequest();
-        var existing = await _repo.GetByIdAsync(id);
-        if (existing == null) return NotFound();
-        existing.Quantity = item.Quantity;
-        existing.IsDeleted = item.IsDeleted;
-        await _repo.UpdateAsync(existing);
+        if (command == null || id != command.Id) return BadRequest();
+        await _mediator.Send(command);
         return NoContent();
     }
 }

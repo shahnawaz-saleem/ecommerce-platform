@@ -39,6 +39,9 @@ else
 }
 builder.Services.AddValidatorsFromAssemblyContaining<CreateProductCommandValidator>();
 builder.Services.AddValidatorsFromAssemblyContaining<UpdateProductCommandValidator>();
+// Inventory validators
+builder.Services.AddValidatorsFromAssemblyContaining<Inventory.Application.Commands.CreateInventoryItem.CreateInventoryItemCommandValidator>();
+builder.Services.AddValidatorsFromAssemblyContaining<Inventory.Application.Commands.UpdateInventoryItem.UpdateInventoryItemCommandValidator>();
 
 builder.Services.AddTransient(
     typeof(IPipelineBehavior<,>),

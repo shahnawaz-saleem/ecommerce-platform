@@ -25,6 +25,26 @@ public class InventoryRepository : IInventoryRepository
         return await _db.InventoryItems.FirstOrDefaultAsync(i => i.Id == id);
     }
 
+    public async Task<IEnumerable<InventoryItem>> GetAllAsync()
+    {
+        return await _db.InventoryItems.ToListAsync();
+    }
+
+    public async Task<int> CountAsync(CancellationToken cancellationToken = default)
+    {
+        return await _db.InventoryItems.CountAsync(cancellationToken);
+    }
+
+    public async Task<IEnumerable<InventoryItem>> GetPagedAsync(int page, int pageSize, CancellationToken cancellationToken = default)
+    {
+        var skip = (page - 1) * pageSize;
+        return await _db.InventoryItems
+            .OrderBy(i => i.Id)
+            .Skip(skip)
+            .Take(pageSize)
+            .ToListAsync(cancellationToken);
+    }
+
     public async Task UpdateAsync(InventoryItem item)
     {
         _db.InventoryItems.Update(item);

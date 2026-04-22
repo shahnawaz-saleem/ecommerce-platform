@@ -21,8 +21,9 @@ public class InventoryDbContext : DbContext
         modelBuilder.Entity<InventoryItem>(entity =>
         {
             entity.HasKey(p => p.Id);
-            entity.Property(p => p.Quantity);
-            entity.Ignore("DomainEvents");
+            entity.Property(p => p.TotalStock);
+            entity.Property(p => p.ReservedStock);
+            entity.Ignore(i => i.DomainEvents);
             entity.HasQueryFilter(p => !p.IsDeleted);
         });
 
@@ -31,7 +32,33 @@ public class InventoryDbContext : DbContext
 
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
-        // Publish domain events if any (no-op by default)
-        return await base.SaveChangesAsync(cancellationToken);
+        // Collect domain events
+        var domainEntities = ChangeTracker
+            .Entries()
+            .Where(e => e.Entity is Inventory.Domain.DomainEvents.IHasDomainEvents)
+            .Select(e => e.Entity as Inventory.Domain.DomainEvents.IHasDomainEvents)
+            .Where(e => e != null)
+            .ToList();
+
+        var domainEvents = domainEntities
+            .SelectMany(e => e!.DomainEvents)
+            .ToList();
+
+        // Publish events in-process
+        foreach (var domainEvent in domainEvents)
+        {
+            await _mediator.Publish(domainEvent, cancellationToken);
+        }
+
+        // Clear events
+        foreach (var entity in domainEntities)
+        {
+            entity!.ClearDomainEvents();
+        }
+
+        // Save changes (including outbox) within the same transaction
+        var result = await base.SaveChangesAsync(cancellationToken);
+
+        return result;
     }
 }
