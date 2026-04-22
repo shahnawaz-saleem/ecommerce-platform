@@ -18,6 +18,8 @@ public class InventoryItem : Inventory.Domain.DomainEvents.IHasDomainEvents
     public int AvailableStock => TotalStock - ReservedStock;
 
     public bool IsDeleted { get; private set; }
+    // Concurrency token for optimistic concurrency control
+    public byte[] RowVersion { get; private set; }
 
     private readonly List<DomainEvent> _domainEvents = new();
     public IReadOnlyCollection<DomainEvent> DomainEvents => _domainEvents.AsReadOnly();

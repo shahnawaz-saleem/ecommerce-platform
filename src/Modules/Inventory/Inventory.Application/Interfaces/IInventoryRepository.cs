@@ -10,4 +10,6 @@ public interface IInventoryRepository
     Task<IEnumerable<InventoryItem>> GetAllAsync();
     Task<int> CountAsync(CancellationToken cancellationToken = default);
     Task<IEnumerable<InventoryItem>> GetPagedAsync(int page, int pageSize, CancellationToken cancellationToken = default);
+    Task<InventoryItem?> GetByProductIdAsync(Guid productId);
+    Task SaveChangesAsync(CancellationToken cancellationToken = default);
 }

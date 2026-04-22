@@ -45,6 +45,16 @@ public class InventoryRepository : IInventoryRepository
             .ToListAsync(cancellationToken);
     }
 
+    public async Task<InventoryItem?> GetByProductIdAsync(Guid productId)
+    {
+        return await _db.InventoryItems.FirstOrDefaultAsync(i => i.ProductId == productId);
+    }
+
+    public async Task SaveChangesAsync(CancellationToken cancellationToken = default)
+    {
+        await _db.SaveChangesAsync(cancellationToken);
+    }
+
     public async Task UpdateAsync(InventoryItem item)
     {
         _db.InventoryItems.Update(item);

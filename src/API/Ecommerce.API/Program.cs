@@ -42,6 +42,11 @@ builder.Services.AddValidatorsFromAssemblyContaining<UpdateProductCommandValidat
 // Inventory validators
 builder.Services.AddValidatorsFromAssemblyContaining<Inventory.Application.Commands.CreateInventoryItem.CreateInventoryItemCommandValidator>();
 builder.Services.AddValidatorsFromAssemblyContaining<Inventory.Application.Commands.UpdateInventoryItem.UpdateInventoryItemCommandValidator>();
+// Add stock/reservation validators
+builder.Services.AddValidatorsFromAssemblyContaining<Inventory.Application.Commands.AddStock.AddStockCommandValidator>();
+builder.Services.AddValidatorsFromAssemblyContaining<Inventory.Application.Commands.ReserveStock.ReserveStockCommandValidator>();
+builder.Services.AddValidatorsFromAssemblyContaining<Inventory.Application.Commands.ConfirmReservation.ConfirmReservationCommandValidator>();
+builder.Services.AddValidatorsFromAssemblyContaining<Inventory.Application.Commands.ReleaseReservation.ReleaseReservationCommandValidator>();
 
 builder.Services.AddTransient(
     typeof(IPipelineBehavior<,>),

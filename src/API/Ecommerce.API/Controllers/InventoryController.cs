@@ -4,6 +4,10 @@ using Inventory.Application.Queries.GetInventoryById;
 using Inventory.Application.Queries.GetInventories;
 using Inventory.Application.Commands.CreateInventoryItem;
 using Inventory.Application.Commands.UpdateInventoryItem;
+using Inventory.Application.Commands.AddStock;
+using Inventory.Application.Commands.ReserveStock;
+using Inventory.Application.Commands.ConfirmReservation;
+using Inventory.Application.Commands.ReleaseReservation;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Ecommerce.API.Controllers;
@@ -43,10 +47,61 @@ public class InventoryController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> Update(Guid id, [FromBody] UpdateInventoryItemCommand command)
+    public async Task<IActionResult> Update(Guid id, UpdateInventoryItemCommand command, CancellationToken cancellationToken)
     {
         if (command == null || id != command.Id) return BadRequest();
-        await _mediator.Send(command);
+
+        var result = await _mediator.Send(command, cancellationToken);
+
+        if (!result)
+            return NotFound();
+
+        return NoContent();
+    }
+
+    [HttpPost("{productId}/add")]
+    public async Task<IActionResult> AddStock(Guid productId, AddStockCommand command, CancellationToken cancellationToken)
+    {
+        if (command == null || productId != command.ProductId) return BadRequest();
+
+        var id = await _mediator.Send(command, cancellationToken);
+
+        return CreatedAtAction(nameof(Get), new { id }, id);
+    }
+
+    [HttpPost("{productId}/reserve")]
+    public async Task<IActionResult> ReserveStock(Guid productId, ReserveStockCommand command, CancellationToken cancellationToken)
+    {
+        if (command == null || productId != command.ProductId) return BadRequest();
+
+        var ok = await _mediator.Send(command, cancellationToken);
+
+        if (!ok) return BadRequest("Insufficient stock or inventory not found");
+
+        return NoContent();
+    }
+
+    [HttpPost("{productId}/confirm")]
+    public async Task<IActionResult> ConfirmReservation(Guid productId, ConfirmReservationCommand command, CancellationToken cancellationToken)
+    {
+        if (command == null || productId != command.ProductId) return BadRequest();
+
+        var ok = await _mediator.Send(command, cancellationToken);
+
+        if (!ok) return BadRequest("Confirm failed");
+
+        return NoContent();
+    }
+
+    [HttpPost("{productId}/release")]
+    public async Task<IActionResult> ReleaseReservation(Guid productId, ReleaseReservationCommand command, CancellationToken cancellationToken)
+    {
+        if (command == null || productId != command.ProductId) return BadRequest();
+
+        var ok = await _mediator.Send(command, cancellationToken);
+
+        if (!ok) return BadRequest("Release failed");
+
         return NoContent();
     }
 }
