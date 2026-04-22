@@ -1,8 +1,8 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Caching\Caching.csproj" />
-    <ProjectReference Include="..\..\..\..\BuildingBlocks\Messaging\Messaging.csproj" />
+    <ProjectReference Include="..\..\..\..\Caching\Caching.csproj" />
+    <ProjectReference Include="..\..\..\BuildingBlocks\Messaging\Messaging.csproj" />
     <ProjectReference Include="..\Inventory.Domain\Inventory.Domain.csproj" />
   </ItemGroup>
 
