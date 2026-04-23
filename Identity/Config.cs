@@ -30,7 +30,7 @@ namespace Identity
             SlidingRefreshTokenLifetime = 1296000,  // 15 days
             RefreshTokenUsage = TokenUsage.ReUse,
             RefreshTokenExpiration = TokenExpiration.Sliding,
-            RedirectUris = { "https://localhost:7054/" },
+            RedirectUris = { "https://localhost:7054/signin-oidc" },
             PostLogoutRedirectUris = { "https://localhost:7054/signout-callback-oidc" },
             AllowedCorsOrigins = { "https://localhost:4200" },
 
@@ -76,30 +76,6 @@ namespace Identity
 }
             };
 
-        public static List<TestUser> Users =>
-    new List<TestUser>
-    {
-        new TestUser
-        {
-            SubjectId = "1",
-            Username = "admin",
-            Password = "password",
-            Claims =
-            {
-                new Claim("role", "Admin")
-            }
-        },
-        new TestUser
-        {
-            SubjectId = "2",
-            Username = "superadmin",
-            Password = "password",
-            Claims =
-            {
-                new Claim("role", "SuperAdmin")
-            }
-        }
-    };
         public static IEnumerable<ApiResource> Resources =>
             new List<ApiResource>
             {
