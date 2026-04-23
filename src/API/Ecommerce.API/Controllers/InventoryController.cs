@@ -9,6 +9,7 @@ using Inventory.Application.Commands.ReserveStock;
 using Inventory.Application.Commands.ConfirmReservation;
 using Inventory.Application.Commands.ReleaseReservation;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Ecommerce.API.Controllers;
 
@@ -24,6 +25,7 @@ public class InventoryController : ControllerBase
     }
 
     [HttpGet("{id}")]
+    [Authorize(Roles = "SuperAdmin")]
     public async Task<IActionResult> Get(Guid id)
     {
         var item = await _mediator.Send(new GetInventoryByIdQuery(id));

@@ -1,0 +1,30 @@
+﻿@page
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model Identity.pages.Account.Register
+@{
+}
+<h2>Login</h2>
+
+<form method="post">
+    <div>
+        <label>Username</label>
+        <input asp-for="Email" />
+    </div>
+
+    <div>
+        <label>Password</label>
+        <input asp-for="Password" type="password" />
+    </div>
+
+    <div>
+        <label>Role</label>
+        <select asp-for="Role" asp-items="Html.GetEnumSelectList<Identity.pages.Account.RoleTYPE>()"></select>
+    </div>
+
+    <button type="submit">Login</button>
+</form>
+
+@if (!string.IsNullOrEmpty(Model.Error))
+{
+    <p style="color:red">@Model.Error</p>
+}
