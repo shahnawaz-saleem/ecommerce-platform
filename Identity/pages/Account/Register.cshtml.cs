@@ -23,7 +23,8 @@ namespace Identity.pages.Account
         public string SuccessMessage { get; set; }
 
         public string Error { get; set; }
-       
+        
+        public string ReturnUrl { get; set; }
         public void OnGet()
         {
         }
@@ -39,11 +40,18 @@ namespace Identity.pages.Account
             var result = await _userManager.CreateAsync(user, model.Password);
 
             if (!result.Succeeded)
-                return BadRequest(result.Errors);
+            {
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, error.Description);
+                }
+
+                return Page(); 
+            }
 
             await _userManager.AddToRoleAsync(user, model.Role.ToString());
 
-            return Page();
+            return RedirectToPage("/Account/Login", new { returnUrl = ReturnUrl ?? "/" });
         }
     }
 }

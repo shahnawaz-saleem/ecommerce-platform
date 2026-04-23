@@ -2,7 +2,7 @@
 {
     public enum RoleTYPE
     {
-        Customer,
+   
         Admin,
         SuperAdmin
     }
