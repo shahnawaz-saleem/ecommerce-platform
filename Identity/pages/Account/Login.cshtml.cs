@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.ComponentModel.DataAnnotations;
 
 namespace Identity.pages.Account
 {
@@ -14,14 +15,17 @@ namespace Identity.pages.Account
         }
 
         [BindProperty]
+        [Required]
         public string Username { get; set; }
 
         [BindProperty]
+        [Required]
+        [DataType(DataType.Password)]
         public string Password { get; set; }
 
         public string Error { get; set; }
-        [BindProperty(SupportsGet = true)]
-        public string ReturnUrl { get; set; }
+        public string SuccessMessage { get; set; }
+       
         public void OnGet()
         {
         }
@@ -33,7 +37,7 @@ namespace Identity.pages.Account
 
             if (result.Succeeded)
             {
-                return Redirect(ReturnUrl ?? "/");
+                return Redirect("/");
             }
 
             Error = "Invalid credentials";

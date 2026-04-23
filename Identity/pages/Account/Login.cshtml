@@ -5,15 +5,20 @@
 }
 <h2>Login</h2>
 
-<form method="post">
+<form method="post" novalidate>
+    @Html.AntiForgeryToken()
+    <div asp-validation-summary="All" class="text-danger"></div>
+
     <div>
-        <label>Username</label>
+        <label asp-for="Username"></label>
         <input asp-for="Username" />
+        <span asp-validation-for="Username" class="text-danger"></span>
     </div>
 
     <div>
-        <label>Password</label>
+        <label asp-for="Password"></label>
         <input asp-for="Password" type="password" />
+        <span asp-validation-for="Password" class="text-danger"></span>
     </div>
 
     <button type="submit">Login</button>
@@ -23,3 +28,9 @@
 {
     <p style="color:red">@Model.Error</p>
 }
+
+<p>
+    <a asp-page="/Account/Register">Sign up</a>
+</p>
+
+<partial name="_ValidationScriptsPartial" />

@@ -20,11 +20,10 @@ namespace Identity.pages.Account
         public string Password { get; set; }
         [BindProperty]
         public RoleTYPE Role { get; set; }
-
+        public string SuccessMessage { get; set; }
 
         public string Error { get; set; }
-        [BindProperty(SupportsGet = true)]
-        public string ReturnUrl { get; set; }
+       
         public void OnGet()
         {
         }

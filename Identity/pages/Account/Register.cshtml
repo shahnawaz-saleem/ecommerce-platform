@@ -3,28 +3,52 @@
 @model Identity.pages.Account.Register
 @{
 }
-<h2>Login</h2>
+<h2>Register</h2>
 
-<form method="post">
+<form method="post" novalidate>
+    @Html.AntiForgeryToken()
+    <div asp-validation-summary="All" class="text-danger"></div>
+
     <div>
-        <label>Username</label>
+        <label asp-for="Email"></label>
         <input asp-for="Email" />
+        <span asp-validation-for="Email" class="text-danger"></span>
     </div>
 
     <div>
-        <label>Password</label>
+        <label asp-for="Password"></label>
         <input asp-for="Password" type="password" />
+        <span asp-validation-for="Password" class="text-danger"></span>
     </div>
 
     <div>
-        <label>Role</label>
+        <label asp-for="Role"></label>
         <select asp-for="Role" asp-items="Html.GetEnumSelectList<Identity.pages.Account.RoleTYPE>()"></select>
+        <span asp-validation-for="Role" class="text-danger"></span>
     </div>
 
-    <button type="submit">Login</button>
+    <button type="submit">Register</button>
 </form>
 
 @if (!string.IsNullOrEmpty(Model.Error))
 {
     <p style="color:red">@Model.Error</p>
 }
+
+@if (!string.IsNullOrEmpty(Model.SuccessMessage))
+{
+    <p style="color:green">@Model.SuccessMessage</p>
+    <p><a asp-page="/Account/Login">Proceed to login</a></p>
+    <script>
+        // Auto-redirect to login after 3 seconds
+        setTimeout(function(){
+            window.location = '@Url.Page("/Account/Login")';
+        }, 3000);
+    </script>
+}
+else
+{
+    <p><a asp-page="/Account/Login">Back to login</a></p>
+}
+
+<partial name="_ValidationScriptsPartial" />
